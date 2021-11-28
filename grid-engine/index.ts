@@ -1,11 +1,12 @@
 import Area from "./Area";
 import Grid from "./Grid";
+import HtmlRenderer from "./HtmlRenderer/HtmlRenderer";
 import Renderer from "./Renderer";
 
 
 export default class GridEngine {
     public mainGrid: Grid;
-    public mainRenderer:Renderer = new Renderer();
+    public mainRenderer:HtmlRenderer = new HtmlRenderer();
 
 
 

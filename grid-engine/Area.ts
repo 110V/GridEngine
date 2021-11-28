@@ -7,8 +7,8 @@ import Vector2 from "./Vector2";
 export default class Area {
     private _position: Position = { x: 0, y: 0, z: 0 };
     private _size: Vector2 = { x: 0, y: 0 };
-
     private _child: Grid | Content | undefined;
+    
     //TODO add flu
 
     public get position() {
