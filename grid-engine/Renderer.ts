@@ -16,11 +16,11 @@ export default abstract class Renderer {
 
   }
 
-  public renderText(text: Text) :any{
+  public renderText(text: Text): any {
 
   }
 
-  public renderImage(image:Image) :any{
-        
+  public renderImage(image: Image): any {
+
   }
 }
