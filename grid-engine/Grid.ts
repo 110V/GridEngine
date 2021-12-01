@@ -1,19 +1,17 @@
 import Area from "./Area";
 import Flu from "./Flu";
+import HtmlRenderer from "./HtmlRenderer/HtmlRenderer";
 import Position from "./Position";
-import Renderer from "./Renderer";
 import { randomId } from "./Utils";
 import Vector2 from "./Vector2"
 
 
 export default class Grid {
-    private _id: string;
     private _size: Vector2 = { x: 0, y: 0 };
     private _areas: Area[] = [];
 
     constructor(size: Vector2) {
         this._size = size;
-        this._id = randomId("grid");
     }
 
     public get areas() {
@@ -34,17 +32,17 @@ export default class Grid {
         return newArea;
     }
 
-    public area(position: Position): Area | null {
-        let area: Area | null = null;
+    public area(position: Position): Area[] {
+        let areas: Area[] = [];
         this.areas.forEach((a) => {
-            if (a.size) {
-                area = a;
+            if (a.position == position) {
+                areas.push(a);
             }
         })
-        return area;
+        return areas;
     }
 
-    public renderSubjects(renderer: Renderer): string {
+    public renderSubjects(renderer: HtmlRenderer): HTMLElement[] {
         return renderer.renderGrid(this)
     }
 }

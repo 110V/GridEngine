@@ -1,19 +1,18 @@
 import Area from "./Area";
 import Grid from "./Grid";
-import HtmlRenderer from "./StaticRenderer/StaticRenderer";
-import Renderer from "./Renderer";
+import HtmlRenderer from "./HtmlRenderer/HtmlRenderer";
 
 
 export default class GridEngine {
     public mainGrid: Grid;
-    public mainRenderer:HtmlRenderer = new HtmlRenderer();
+    public mainRenderer: HtmlRenderer = new HtmlRenderer();
 
     constructor(x: number, y: number) {//TODO Add option interface
         this.mainGrid = new Grid({ x: x, y: y });
     }
 
-    public render(width: number, height: number): string {
-        return this.mainRenderer.render(this.mainGrid);
+    public render(root: HTMLElement, style: HTMLElement) {
+        this.mainRenderer.render(this.mainGrid, root, style);
     }
 
     //TODO rendersetting
