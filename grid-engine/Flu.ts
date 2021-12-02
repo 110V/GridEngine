@@ -8,11 +8,14 @@ export default class Flu<T> {
         this._value = value;
     }
 
-    private set = (value: T) => {
+    public set = (value: T) => {
         this._value = value;
         this._subjects.map((s) => { s.update() });
     }
 
+    public get = ()=>{
+        return this._value;
+    }
     public register(area: Area) {
         this._subjects.push(area);
     }

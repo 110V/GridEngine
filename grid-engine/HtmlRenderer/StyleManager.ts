@@ -17,6 +17,7 @@ export default class StyleManager {
         .area {
             position: absolute;
         }\n`
+        
     private _styles: { [key: string]: Property[] } = {};
 
     private contentSetter() {
@@ -62,8 +63,6 @@ export default class StyleManager {
 
 
     public exportStyle(): string {
-//TODO move to main engine class
-
         let result: string = ``;
 
         for (const [key, value] of Object.entries(this._styles)) {

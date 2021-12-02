@@ -7,14 +7,23 @@ import StyleManager from "./StyleManager";
 
 export default class HtmlRenderer {
   private styleManager: StyleManager = new StyleManager();
+  private _root:HTMLElement;
+  private _style:HTMLElement
 
-  public render(mainGrid: Grid,root:HTMLElement,style:HTMLElement) {
-    const html = this.renderGrid(mainGrid);
-    const css = this.styleManager.exportStyle()
-    root.append(...html);
-    style.innerHTML = css;
+  constructor(root:HTMLElement,style:HTMLElement){
+    this._root = root;
+    this._style = style;
   }
 
+  public render(mainGrid: Grid) {
+    const html = this.renderGrid(mainGrid);
+    const css = this.styleManager.exportStyle()
+    for(let i = 0;i<html.length;i++){
+      this._root.appendChild(html[i]);
+    }
+    this._style.innerHTML = css;
+  }
+  
   public renderGrid = (grid: Grid): HTMLElement[] => {
     let result: HTMLElement[] = []
     grid.areas.forEach((area) => {
@@ -45,7 +54,9 @@ export default class HtmlRenderer {
     const areaDiv = document.createElement("div");
     areaDiv.id = id;
     areaDiv.className = "area";
-    areaDiv.append(...result);
+    for(let i = 0;i<result.length;i++){
+      areaDiv.appendChild(result[i]);
+    }
     return areaDiv;
   }
 

@@ -5,14 +5,15 @@ import HtmlRenderer from "./HtmlRenderer/HtmlRenderer";
 
 export default class GridEngine {
     public mainGrid: Grid;
-    public mainRenderer: HtmlRenderer = new HtmlRenderer();
+    public mainRenderer: HtmlRenderer;
 
-    constructor(x: number, y: number) {//TODO Add option interface
+    constructor(x: number, y: number, root: HTMLElement, style: HTMLElement) {//TODO Add option interface
         this.mainGrid = new Grid({ x: x, y: y });
+        this.mainRenderer = new HtmlRenderer(root, style);
     }
 
     public render(root: HTMLElement, style: HTMLElement) {
-        this.mainRenderer.render(this.mainGrid, root, style);
+        this.mainRenderer.render(this.mainGrid);
     }
 
     //TODO rendersetting

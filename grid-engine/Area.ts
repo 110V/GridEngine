@@ -9,7 +9,6 @@ import Vector2 from "./Vector2";
 export default class Area {
     private _id:string;
     private _renderer:HtmlRenderer|null = null;
-    private _allocatedHtmlElement:HTMLElement|null = null;
     private _position: Position = { x: 0, y: 0, z: 0 };
     private _size: Vector2 = { x: 0, y: 0 };
     private _child: Grid | Content | null = null;
@@ -41,7 +40,9 @@ export default class Area {
         }
     }
 
-    
+    public findRenderedHtmlElement():HTMLElement|null {
+        return document.getElementById(this.id);
+    }
 
     constructor(position: Position, size: Vector2) {
         this._position = position;
@@ -49,27 +50,27 @@ export default class Area {
         this._id = randomId("area");
     }
 
-    public get child(){
+    public get child() {
         return this._child;
     }
 
-    public render = (renderer:HtmlRenderer):HTMLElement|null => {
-        this._allocatedHtmlElement = renderer.renderArea(this)
+    public render = (renderer: HtmlRenderer): HTMLElement | null => {
         this._renderer = renderer;
-        return this._allocatedHtmlElement;
+        return renderer.renderArea(this);
     }
 
     public update() {
-        if(!this._allocatedHtmlElement||!this._renderer){
+        const element = this.findRenderedHtmlElement();
+        if (!this._renderer || !element) {
             console.log("this Area can be updated after First Render");
             return
         }
         const rendered = this.render(this._renderer);
-        if(rendered){
-            this._allocatedHtmlElement.replaceWith(rendered);
+        if (rendered) {
+            element.replaceWith(rendered);
         }
-        else{
-            this._allocatedHtmlElement.replaceWith(document.createElement("div"));
-        }   
+        else {
+            element.replaceWith(document.createElement("div"));
+        }
     }
 }
