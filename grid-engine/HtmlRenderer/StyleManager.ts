@@ -20,10 +20,6 @@ export default class StyleManager {
         
     private _styles: { [key: string]: Property[] } = {};
 
-    private contentSetter() {
-        //TODO
-    }
-
     private makePosProperty(gridSize: Vector2, position: Position): Property[] {
         const gridWidth = 100 / gridSize.x;
         const gridHeight = 100 / gridSize.y;
@@ -32,8 +28,7 @@ export default class StyleManager {
         const posY = gridHeight * position.y;
         const posXProperty: Property = { name: "left", value: `${posX}%` };
         const posYProperty: Property = { name: "top", value: `${posY}%` };
-        const posZProperty: Property = { name: "z-index", value: position.z.toString() }
-        return [posXProperty, posYProperty, posZProperty];
+        return [posXProperty, posYProperty]
     }
 
     public areaSetter(gridSize: Vector2, area: Area, id: string) {
