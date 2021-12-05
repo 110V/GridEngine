@@ -13,7 +13,8 @@ export default class Area {
     private _size: Vector2 = { x: 0, y: 0 };
     private _child: Grid | Content | null = null;
     private _flus:Flu<any>[] = [];
-
+    private _isFixed = false;
+    
     public get position() {
         return this._position;
     }
@@ -22,8 +23,12 @@ export default class Area {
         return this._size;
     }
 
-    public get id(){
+    public get id() {
         return this._id;
+    }
+    
+    public get child() {
+        return this._child;
     }
 
     public setChild = (child:Content|Grid)=>{
@@ -44,14 +49,25 @@ export default class Area {
         return document.getElementById(this.id);
     }
 
-    constructor(position: Position, size: Vector2) {
+    public changeSize(size:Vector2,update = false){
+        this._size = size;
+        if(update) {
+            this.update();
+        }
+    }
+    
+    public changePosition(position:Position,update = false){
+        this._position = position;
+        if(update) {
+            this.update();
+        }
+    }
+
+    constructor(position: Position, size: Vector2,isFixed = false) {
+        this._isFixed = isFixed;
         this._position = position;
         this._size = size;
         this._id = randomId("area");
-    }
-
-    public get child() {
-        return this._child;
     }
 
     public render = (renderer: HtmlRenderer): HTMLElement | null => {
