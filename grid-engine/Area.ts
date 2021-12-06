@@ -4,17 +4,18 @@ import Grid from "./Grid";
 import HtmlRenderer from "./HtmlRenderer/HtmlRenderer";
 import Position from "./Position";
 import { randomId } from "./Utils";
-import Vector2 from "./Vector2";
+import { addVector2, Vector2 } from "./Vector2";
 
 export default class Area {
     private _id:string;
     private _renderer:HtmlRenderer|null = null;
-    private _position: Position = { x: 0, y: 0, z: 0 };
+    private _position: Position = { x: 0, y: 0};
     private _size: Vector2 = { x: 0, y: 0 };
     private _child: Grid | Content | null = null;
     private _flus:Flu<any>[] = [];
-    private _isFixed = false;
-    
+    private _isFixedWidth:boolean = false;
+    private _isFixedHeight:boolean = false;
+
     public get position() {
         return this._position;
     }
@@ -29,6 +30,14 @@ export default class Area {
     
     public get child() {
         return this._child;
+    }
+
+    public get isFixedWidth() {
+        return this._isFixedWidth;
+    }
+
+    public get isFixedHeight() {
+        return this._isFixedHeight;
     }
 
     public setChild = (child:Content|Grid)=>{
@@ -55,7 +64,7 @@ export default class Area {
             this.update();
         }
     }
-    
+
     public changePosition(position:Position,update = false){
         this._position = position;
         if(update) {
@@ -63,8 +72,9 @@ export default class Area {
         }
     }
 
-    constructor(position: Position, size: Vector2,isFixed = false) {
-        this._isFixed = isFixed;
+    constructor(position: Position, size: Vector2,isFixedWidth = false,isFixedHeight = false) {
+        this._isFixedWidth = isFixedWidth;
+        this._isFixedHeight = isFixedWidth;
         this._position = position;
         this._size = size;
         this._id = randomId("area");
@@ -88,5 +98,25 @@ export default class Area {
         else {
             element.replaceWith(document.createElement("div"));
         }
+    }
+
+    public checkRowInArea(row:number) {  
+        const lu = this.position;
+        const rd = addVector2(lu, this.size);
+        return (lu.y < row) && (row < rd.y);
+    }
+
+    public checkColumnInArea(column:number) {
+        const lu = this.position;
+        const rd = addVector2(lu, this.size);
+        return (lu.y < column) && (column < rd.y);
+    }
+
+    public checkInArea(point:Vector2) {
+        const lu = this.position;
+        const rd = addVector2(lu, this.size);
+        const x = point.x;
+        const y = point.y;
+        return (lu.x < x) && (x < rd.x) && (lu.y < y) && (y < rd.y);
     }
 }

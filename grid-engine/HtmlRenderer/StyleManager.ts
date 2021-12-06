@@ -1,7 +1,10 @@
 import Area from "../Area";
 import Content from "../Content";
+import Grid from "../Grid";
 import Position from "../Position";
-import Vector2 from "../Vector2";
+import { Vector2 } from "../Vector2";
+import BlockSizing from "./BlockSizing";
+
 
 interface Property {
     name: string,
@@ -19,28 +22,25 @@ export default class StyleManager {
         }\n`
         
     private _styles: { [key: string]: Property[] } = {};
+    private _defaultSize:Vector2;
+    constructor(defaultSize:Vector2){
+        this._defaultSize = defaultSize;
+    }
 
-    private makePosProperty(gridSize: Vector2, position: Position): Property[] {
-        const gridWidth = 100 / gridSize.x;
-        const gridHeight = 100 / gridSize.y;
-
-        const posX = gridWidth * position.x;
-        const posY = gridHeight * position.y;
-        const posXProperty: Property = { name: "left", value: `${posX}%` };
-        const posYProperty: Property = { name: "top", value: `${posY}%` };
+    private makePosProperty(grid:Grid, area:Area): Property[] {
+        const blockSizing = new BlockSizing(grid,this._defaultSize); 
+        const posXProperty: Property = { name: "left", value: blockSizing.makePosXCSS(area) };
+        const posYProperty: Property = { name: "top", value: blockSizing.makePosYCSS(area) };
         return [posXProperty, posYProperty]
     }
 
-    public areaSetter(gridSize: Vector2, area: Area, id: string) {
-        const gridWidth = 100 / gridSize.x;
-        const gridHeight = 100 / gridSize.y;
+    public areaSetter(grid:Grid, area: Area, id: string) {
+        const blockSizing = new BlockSizing(grid,this._defaultSize); 
 
-        const width = gridWidth * area.size.x;
-        const height = gridHeight * area.size.y;
-        const widthProperty: Property = { name: "width", value: `${width}%` };
-        const heightPropety: Property = { name: "height", value: `${height}%` };
+        const widthProperty: Property = { name: "width", value: blockSizing.makeAreaWidthCSS(area) };
+        const heightPropety: Property = { name: "height", value: blockSizing.makeAreaHeightCSS(area) };
 
-        const posProperty = this.makePosProperty(gridSize, area.position);
+        const posProperty = this.makePosProperty(grid,area);
 
         this.addStyles(id, [widthProperty, heightPropety, ...posProperty]);
     }

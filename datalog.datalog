@@ -1,0 +1,59 @@
+#+BEGIN_QUERY
+      {:title "All todos tagged using current page"
+       :query [:find ?t
+             :where
+             [?b :block/created-at ?d]
+             [(>= ?d 1638370800000)]
+             [(< ?d 1638457200000)]
+             [?b :block/name ?t]]
+       :view (fn [names]
+             [:div
+             (for [name(flatten names)]
+             [:div (str name)])
+             ])}
+      #+END_QUERY
+
+#+BEGIN_QUERY
+      {:title "All todos tagged using current page"
+       :query [:find ?t
+             :where
+             [?b :block/created-at ?d]
+             [(>= ?d 1638370800000)]
+             [(< ?d 1638457200000)]
+             [?b :block/name ?t]]
+       :view (fn [names]
+             [:div
+             (for [name(flatten names)]
+             [:div (with-precision 10 :rounding HALF_DOWN (/ 1M 3))])
+             ])}
+      #+END_QUERY
+
+#+BEGIN_QUERY
+      {:title "All todos tagged using current page"
+       :query [:find (pull ?b [:block/created-at])
+             :where
+             [?b :block/created-at ?d]
+             [(>= ?d 1638370800000)]
+             [(< ?d 1638457200000)]]
+       :view (
+             fn [names]
+             [:div
+             (for [name names]
+             [:div (str (get name :name))])
+             ])}
+      #+END_QUERY
+
+      #+BEGIN_QUERY
+      {:title "All todos tagged using current page"
+       :query [:find (pull ?b [:block/name :block/created-at])
+             :where
+             [?b :block/created-at ?d]
+             [(>= ?d 1638370800000)]
+             [(< ?d 1638457200000)]]
+       :view (
+             fn [names]
+             [:div
+             (for [name names]
+             [:div (str (get name :block/created-at) " " (get name :block/name))])
+             ])}
+      #+END_QUERY

@@ -3,7 +3,7 @@ import Flu from "./Flu";
 import HtmlRenderer from "./HtmlRenderer/HtmlRenderer";
 import Position from "./Position";
 import { randomId } from "./Utils";
-import Vector2 from "./Vector2"
+import { Vector2 } from "./Vector2";
 
 
 export default class Grid {
@@ -26,8 +26,8 @@ export default class Grid {
         //TODO flu
     }
 
-    public makeArea(position: Position, size: Vector2): Area {
-        const newArea = new Area(position, size)
+    public makeArea(position: Position, size: Vector2,isWidthFixed:boolean = false,isHeightFiexed:boolean = false): Area {
+        const newArea = new Area(position, size,isWidthFixed,isHeightFiexed);
         this._areas.push(newArea);
         return newArea;
     }

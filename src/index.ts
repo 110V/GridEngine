@@ -15,9 +15,9 @@ var styleSheet = document.createElement("style")
 if(!rootElement)
     rootElement = new HTMLElement();
 
-let ge = new GridEngine(100,100,rootElement,styleSheet);
-const testga = ge.mainGrid.makeArea({x:50,y:5,z:0},{x:20,y:6})
-const testgb = ge.mainGrid.makeArea({x:25,y:5,z:5},{x:30,y:30})
+let ge = new GridEngine(100,100,rootElement,styleSheet,{x:1920,y:1080});
+const testga = ge.mainGrid.makeArea({x:50,y:4},{x:20,y:6})
+const testgb = ge.mainGrid.makeArea({x:25,y:5},{x:30,y:30})
 
 
 const testFlu = new Flu<string>("hello world");

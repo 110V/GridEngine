@@ -1,23 +1,26 @@
 import Area from "../Area";
 import Content from "../Content";
 import Grid from "../Grid";
+import { Vector2 } from "../Vector2";
+import BlockSizing from "./BlockSizing";
 import StyleManager from "./StyleManager";
 
 
 
 export default class HtmlRenderer {
-  private styleManager: StyleManager = new StyleManager();
+  private _styleManager: StyleManager;
   private _root:HTMLElement;
   private _style:HTMLElement
 
-  constructor(root:HTMLElement,style:HTMLElement){
+  constructor(root:HTMLElement,style:HTMLElement,defaultSize:Vector2){
     this._root = root;
     this._style = style;
+    this._styleManager = new StyleManager(defaultSize);
   }
 
   public render(mainGrid: Grid) {
     const html = this.renderGrid(mainGrid);
-    const css = this.styleManager.exportStyle()
+    const css = this._styleManager.exportStyle()
     for(let i = 0;i<html.length;i++){
       this._root.appendChild(html[i]);
     }
@@ -28,7 +31,7 @@ export default class HtmlRenderer {
     let result: HTMLElement[] = []
     grid.areas.forEach((area) => {
       const id = area.id;
-      this.styleManager.areaSetter(grid.size, area, id);
+      this._styleManager.areaSetter(grid, area, id);
       const rendered = area.render(this);
       if (rendered) {
         result.push(rendered);
