@@ -15,26 +15,34 @@ var styleSheet = document.createElement("style")
 if(!rootElement)
     rootElement = new HTMLElement();
 
-let ge = new GridEngine(100,100,rootElement,styleSheet,{x:1920,y:1080});
-const testga = ge.mainGrid.makeArea({x:50,y:4},{x:20,y:6})
-const testgb = ge.mainGrid.makeArea({x:25,y:5},{x:30,y:30})
-
+let ge = new GridEngine(100,100,rootElement,styleSheet,{x:500,y:500});
+const testga = ge.mainGrid.makeArea({x:35,y:20},{x:10,y:10})
+const testgb = ge.mainGrid.makeArea({x:45,y:22},{x:15,y:10},true,true);
+const testgc = ge.mainGrid.makeArea({x:80,y:22},{x:10,y:10},false,false);
 
 const testFlu = new Flu<string>("hello world");
 const maker = (flus:Flu<string>[])=>{
     const element = document.createElement("div");
+    element.style.height = "100%";
     element.innerText = flus[0].get();
-    return element;
+    element.style.backgroundColor = "red";
+    return element
 }
+
+
 const testcontent = new Content(maker,[testFlu]);
 testga.setChild(testcontent);
-
+testgc.setChild(testcontent);
 
 const maker2 = (flus:Flu<string>[])=>{
+    const div = document.createElement("div");
+    div.style.backgroundColor = "blue";
+    div.style.height = "100%";
     const element = document.createElement("button");
     element.innerText = "testbtn";
     element.addEventListener("click",()=>{testFlu.set(randomId("test"))});
-    return element;
+    div.appendChild(element);
+    return div;
 }
 const testcontent2 = new Content(maker2,[]);
 testgb.setChild(testcontent2);

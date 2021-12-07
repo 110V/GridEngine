@@ -7,120 +7,132 @@ export default class BlockSizing {
     private _grid: Grid;
     private _defaultSize: Vector2;
     private _fixedBlockWH: Vector2;
-
+    private _fixedColumn = new Set<number>();;
+    private _fixedRow = new Set<number>();
+    
     constructor(grid: Grid, defaultSize: Vector2) {
         this._grid = grid;
         this._defaultSize = defaultSize;
         this._fixedBlockWH = { x: defaultSize.x / grid.size.x, y: defaultSize.y / grid.size.y };
+
+        this.updateFixedLines();
     }
 
-    public calculateFlexibleBlockHeight(area: Area,areaHeight:number):number {
-        if (area.isFixedHeight) {
-            return area.size.y * this._fixedBlockWH.y;
+    private updateFixedLines() {
+        this._grid.areas.forEach(area => {
+            if(area.isFixedWidth) {
+                for(let i = area.position.x; i<=area.position.x+area.size.x;i++){
+                    this._fixedColumn.add(i);
+                }
+            }
+            if(area.isFixedHeight) {
+                for(let i = area.position.y; i<=area.position.y+area.size.y;i++){
+                    this._fixedRow.add(i);
+                }
+            }
+        });
+    }
+
+    private countFixedColumnIn(a:number,b:number):number{
+        let fixedLineCount = 0;
+        for (let i = a; i <= b; i++) {
+            if (this._fixedColumn.has(i)) {
+                fixedLineCount++;
+            }
         }
-        let fixedBlockCount = 0;
-        this._grid.areas.forEach((a) => {
-            if (a.checkColumnInArea(area.position.x)) {
-                fixedBlockCount += a.size.y;
-            };
-        })
-
-        const leftBlockCount = this._grid.size.x - fixedBlockCount;
-        const flexibleBlockSize = (areaHeight-fixedBlockCount * this._fixedBlockWH.x) / leftBlockCount;
-        return flexibleBlockSize;
+        return fixedLineCount;
     }
 
-    public calculateHeight(area: Area,areaHeight:number):number {
-        if (area.isFixedHeight) {
-            return area.size.y * this._fixedBlockWH.y;
+    private countFixedRowIn(a:number,b:number):number{
+        let fixedLineCount = 0;
+        for (let i = a; i <= b; i++) {
+            if (this._fixedRow.has(i)) {
+                fixedLineCount++;
+            }
         }
-        return this.calculateFlexibleBlockHeight(area,areaHeight)*area.size.y;
+        return fixedLineCount;
     }
 
-    public calculateFlexibleBlockWidth(area: Area, areaWidth:number): number {
+    public calculateFixedHeightPerBlock():number {
+        return this._fixedBlockWH.y;
+    }
+
+    public calculateFixedWidthPerBlock():number {
+        return this._fixedBlockWH.x;
+    }
+
+    public calculateFlexWidthPerBlock(parentAreaWidth:number):number {
+        const fixedLineCount = this._fixedColumn.size;
+        const fixedWidth = fixedLineCount*this._fixedBlockWH.y;
+        const flexWidth =  parentAreaWidth - fixedWidth;
+        const flexLineCount = this._grid.size.y-fixedLineCount;
+        const flexWidthPerBlock = flexWidth/flexLineCount;
+
+        return flexWidthPerBlock;
+    }
+
+    public calculateFlexHeightPerBlock(parentAreaHeight:number):number {
+        const fixedLineCount = this._fixedRow.size;
+        const fixedHeight = fixedLineCount*this._fixedBlockWH.y;
+        const flexHeight =  parentAreaHeight - fixedHeight;
+        const flexLineCount = this._grid.size.y-fixedLineCount;
+        const flexHeightPerBlock = flexHeight/flexLineCount;
+
+        return flexHeightPerBlock;
+    }
+
+    public calculateWidth(area: Area, parentAreaWidth: number): number {
         if (area.isFixedWidth) {
-            return area.size.x * this._fixedBlockWH.x;
+            return area.size.x * this.calculateFixedWidthPerBlock();
         }
-        let fixedBlockCount = 0;
-        this._grid.areas.forEach((a) => {
-            if (a.checkRowInArea(area.position.y)) {
-                fixedBlockCount += a.size.x;
-            };
-        })
-
-        const leftBlockCount = this._grid.size.x - fixedBlockCount;
-        const flexibleBlockSize = (areaWidth-fixedBlockCount * this._fixedBlockWH.x) / leftBlockCount;
-        return area.size.x * flexibleBlockSize;
+        return this.calculateFlexWidthPerBlock(parentAreaWidth) * area.size.x;
     }
 
-    public calculateWidth(area: Area, areaWidth:number): number {
+    public calculateHeight(area: Area, parentAreaHeight: number): number {
         if (area.isFixedWidth) {
-            return area.size.x * this._fixedBlockWH.x;
+            return area.size.x * this.calculateFixedHeightPerBlock();
         }
-        return this.calculateFlexibleBlockWidth(area,areaWidth)*area.size.x;
+        return this.calculateFlexHeightPerBlock(parentAreaHeight) * area.size.y;
     }
 
-    public makeOneFlexBlockWidthCSS(area: Area) : string {
-        let fixedBlockCount = 0;
-        this._grid.areas.forEach((a) => {
-            if (a.checkRowInArea(area.position.y)) {
-                fixedBlockCount += a.size.x;
-            };
-        })
 
-        const leftBlockCount = this._grid.size.x - fixedBlockCount;
-        return `calc(${100/leftBlockCount}% - ${fixedBlockCount * this._fixedBlockWH.x / leftBlockCount}px)`;
+    public makeFlexWidthPerBlockCSS() : string {
+        const fixedLineCount = this._fixedColumn.size;
+        const fixedWidth = fixedLineCount*this.calculateFixedWidthPerBlock();
+        const flexLineCount = this._grid.size.y-fixedLineCount;
+
+        //(100% - fixedWidth) / flexLineCount
+
+        return `calc(${100/flexLineCount}% - ${fixedWidth/flexLineCount}px)`;
     }
 
 
     public makeAreaWidthCSS(area: Area) : string {
-        if (area.isFixedWidth) {
-            return `${area.size.x * this._fixedBlockWH.x}px`;
-        }
-
-        let fixedBlockCount = 0;
-        this._grid.areas.forEach((a) => {
-            if (a.checkRowInArea(area.position.y)) {
-                fixedBlockCount += a.size.x;
-            };
-        })
-
-        const leftBlockCount = this._grid.size.x - fixedBlockCount;
-        return `calc(${100/leftBlockCount*area.size.x}% - ${fixedBlockCount * this._fixedBlockWH.x / leftBlockCount * area.size.x}px)`;
+        let fixedLineCount = this.countFixedLineIn(area.position.x,area.position.x + area.size.x);
+        const flexLineCount = area.size.x - fixedLineCount;
+        return `calc(calc(${flexLineCount} * ${this.makeFlexWidthPerBlockCSS()}) + calc(${fixedLineCount} * ${this.calculateFixedWidthPerBlock()}))`;
     }
 
-    public makeOneFlexBlockHeightCSS(area: Area) : string {
-        let fixedBlockCount = 0;
-        this._grid.areas.forEach((a) => {
-            if (a.checkColumnInArea(area.position.x)) {
-                fixedBlockCount += a.size.y;
-            };
-        })
+    public makeOneFlexBlockHeightCSS() : string {
+        const fixedLineCount = this._fixedRow.size;
+        const fixedHeight = fixedLineCount*this.calculateFixedHeightPerBlock();
+        const flexLineCount = this._grid.size.y-fixedLineCount;
 
-        const leftBlockCount = this._grid.size.x - fixedBlockCount;
-        return `calc(${100/leftBlockCount}% - ${fixedBlockCount * this._fixedBlockWH.y / leftBlockCount}px)`;
+        //(100% - fixedHeight) / flexLineCount
+
+        return `calc(${100/flexLineCount}% - ${fixedHeight/flexLineCount}px)`;
     }
 
     public makeAreaHeightCSS(area: Area) : string {
-        if (area.isFixedHeight) {
-            return `${area.size.y * this._fixedBlockWH.y}px`;
-        }
-
-        let fixedBlockCount = 0;
-        this._grid.areas.forEach((a) => {
-            if (a.checkColumnInArea(area.position.x)) {
-                fixedBlockCount += a.size.y;
-            };
-        })
-
-        const leftBlockCount = this._grid.size.x - fixedBlockCount;
-        return `calc(${100/leftBlockCount*area.size.y}% - ${fixedBlockCount * this._fixedBlockWH.y / leftBlockCount * area.size.y}px)`;
+        let fixedLineCount = this.countFixedLineIn(area.position.x,area.position.x + area.size.x);
+        const flexLineCount = area.size.x - fixedLineCount;
+        return `calc(calc(${flexLineCount} * ${this.makeFlexWidthPerBlockCSS()}) + calc(${fixedLineCount} * ${this.calculateFixedWidthPerBlock()}))`;
     }
 
     public calculatePosX(area: Area, areaWidth:number): number {
         let fixedBlockCount = 0;
         this._grid.areas.forEach((a) => {
-            if (area.position.x>a.position.x&&a.checkRowInArea(area.position.y)) {
+            if (a.isFixedWidth&&area.position.x>a.position.x&&a.checkLongRowInArea(area.position.y,area.size.y)) {
                 fixedBlockCount += a.size.x;
             };
         })
@@ -133,7 +145,7 @@ export default class BlockSizing {
     public calculatePosY(area: Area, areaWidth:number): number {
         let fixedBlockCount = 0;
         this._grid.areas.forEach((a) => {
-            if (area.position.y>a.position.y&&a.checkColumnInArea(area.position.y)) {
+            if (a.isFixedWidth&&area.position.y>a.position.y&&a.checkLongColumnInArea(area.position.y,area.size.y)) {
                 fixedBlockCount += a.size.y;
             };
         })
@@ -145,8 +157,9 @@ export default class BlockSizing {
 
     public makePosXCSS(area: Area): string {
         let fixedBlockCount = 0;
+        
         this._grid.areas.forEach((a) => {
-            if (area.position.x>a.position.x&&a.checkRowInArea(area.position.y)) {
+            if (a.isFixedWidth&&area.position.x>a.position.x&&a.checkLongRowInArea(area.position.y,area.size.y)) {
                 fixedBlockCount += a.size.x;
             };
         })
@@ -161,7 +174,7 @@ export default class BlockSizing {
     public makePosYCSS(area: Area): string {
         let fixedBlockCount = 0;
         this._grid.areas.forEach((a) => {
-            if (area.position.y>a.position.y&&a.checkRowInArea(area.position.y)) {
+            if (a.isFixedHeight&&area.position.y>a.position.y&&a.checkLongRowInArea(area.position.y,area.size.y)) {
                 fixedBlockCount += a.size.y;
             };
         })
