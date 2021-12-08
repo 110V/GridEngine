@@ -16,9 +16,10 @@ if(!rootElement)
     rootElement = new HTMLElement();
 
 let ge = new GridEngine(100,100,rootElement,styleSheet,{x:500,y:500});
-const testga = ge.mainGrid.makeArea({x:35,y:20},{x:10,y:10})
-const testgb = ge.mainGrid.makeArea({x:45,y:22},{x:15,y:10},true,true);
-const testgc = ge.mainGrid.makeArea({x:80,y:22},{x:10,y:10},false,false);
+const testga = ge.mainGrid.makeArea({x:35,y:30},{x:10,y:30})
+const testgb = ge.mainGrid.makeArea({x:45,y:30},{x:15,y:10},true,true);
+const testgc = ge.mainGrid.makeArea({x:80,y:50},{x:10,y:10},false,false);
+const testgd = ge.mainGrid.makeArea({x:45,y:50},{x:15,y:10},false,true);
 
 const testFlu = new Flu<string>("hello world");
 const maker = (flus:Flu<string>[])=>{
@@ -46,7 +47,7 @@ const maker2 = (flus:Flu<string>[])=>{
 }
 const testcontent2 = new Content(maker2,[]);
 testgb.setChild(testcontent2);
-
+testgd.setChild(testcontent2);
 
 
 
