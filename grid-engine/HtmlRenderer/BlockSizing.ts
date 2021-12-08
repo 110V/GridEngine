@@ -148,7 +148,6 @@ export default class BlockSizing {
 
     public makePosYCSS(area: Area): string {
         let fixedLineCount = this.countFixedRowIn(0,area.position.y-1);
-        console.log( this.countFixedRowIn(0,area.position.y-1));
         const flexLineCount = area.position.y - fixedLineCount;
         return `calc(calc(${flexLineCount} * ${this.makeFlexHeightPerBlockCSS()}) + calc(${fixedLineCount} * ${this.calculateFixedHeightPerBlock()}px))`;
     }

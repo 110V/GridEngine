@@ -1,7 +1,7 @@
 import Area from "./Area";
 
 export default class Flu<T> {
-    private _subjects: Area[] = [];
+    private _funcs: ((value:T)=>void)[] = [];
     private _value: T;
 
     constructor(value: T) {
@@ -9,19 +9,21 @@ export default class Flu<T> {
     }
 
     public set = (value: T) => {
+        if(this._value==value){
+            return;
+        }
         this._value = value;
-        this._subjects.map((s) => { s.update() });
+        this._funcs.forEach((f) => {f(value)});
     }
 
-    public get = ()=>{
-        return this._value;
-    }
-    public register(area: Area) {
-        this._subjects.push(area);
+    public register(func:((value:T)=>void)):((value:T)=>void) {
+        this._funcs.push(func);
+        func(this._value);
+        return this.set;
     }
 
-    public unregister(area:Area){
-        this._subjects = this._subjects.filter((a)=>a!=area);
+    public unregister(func:((value:T)=>void)) {
+        this._funcs = this._funcs.filter((f)=>f!=func);
     }
 
 }

@@ -2,22 +2,21 @@ import Flu from "./Flu";
 import HtmlRenderer from "./HtmlRenderer/HtmlRenderer";
 import { randomId } from "./Utils";
 
-export default class Content {
-    private _id:string = "";
-    private _htmlCreator:(flues: Flu<any>[]) => HTMLElement;
-    private _Flus:Flu<any>[];
+export default abstract class Content {
+    protected _id:string = "";
+    protected _htmlElement: HTMLElement;;
 
-    constructor(htmlCreator:(flues: Flu<any>[]) => HTMLElement,flus:Flu<any>[]){
-        this._id = randomId("content");
-        this._Flus = flus;
-        this._htmlCreator = htmlCreator;
+    public get id(){
+        return this._id;
     }
 
-    public get flus(){
-        return this._Flus;
+    constructor(htmlElement:HTMLElement){
+        this._id = randomId("content");
+        htmlElement.id = this._id;
+        this._htmlElement = htmlElement;
     }
 
     public render(renderer:HtmlRenderer):HTMLElement{
-        return this._htmlCreator(this._Flus);
+        return this._htmlElement;
     }
 }

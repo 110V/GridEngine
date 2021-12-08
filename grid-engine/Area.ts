@@ -12,7 +12,6 @@ export default class Area {
     private _position: Position = { x: 0, y: 0};
     private _size: Vector2 = { x: 0, y: 0 };
     private _child: Grid | Content | null = null;
-    private _flus:Flu<any>[] = [];
     private _isFixedWidth:boolean = false;
     private _isFixedHeight:boolean = false;
 
@@ -41,17 +40,7 @@ export default class Area {
     }
 
     public setChild = (child:Content|Grid)=>{
-        this._flus.forEach((f)=>{f.unregister(this)})
         this._child = child;
-        if(child instanceof Content) {
-            this._flus = child.flus;
-            child.flus.forEach((f)=>{
-                f.register(this);
-            })
-        }
-        else{
-            this._flus = [];
-        }
     }
 
     public findRenderedHtmlElement():HTMLElement|null {
@@ -93,7 +82,8 @@ export default class Area {
         }
         const rendered = this.render(this._renderer);
         if (rendered) {
-            element.replaceWith(rendered);
+            rendered.innerHTML = rendered.innerHTML
+            //element.replaceWith(rendered);
         }
         else {
             element.replaceWith(document.createElement("div"));
