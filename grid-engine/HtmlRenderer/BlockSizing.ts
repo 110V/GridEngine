@@ -63,9 +63,9 @@ export default class BlockSizing {
 
     public calculateFlexWidthPerBlock(parentAreaWidth:number):number {
         const fixedLineCount = this._fixedColumn.size;
-        const fixedWidth = fixedLineCount*this._fixedBlockWH.y;
+        const fixedWidth = fixedLineCount*this._fixedBlockWH.x;
         const flexWidth =  parentAreaWidth - fixedWidth;
-        const flexLineCount = this._grid.size.y-fixedLineCount;
+        const flexLineCount = this._grid.size.x-fixedLineCount;
         const flexWidthPerBlock = flexWidth/flexLineCount;
 
         return flexWidthPerBlock;
@@ -99,21 +99,20 @@ export default class BlockSizing {
     public makeFlexWidthPerBlockCSS() : string {
         const fixedLineCount = this._fixedColumn.size;
         const fixedWidth = fixedLineCount*this.calculateFixedWidthPerBlock();
-        const flexLineCount = this._grid.size.y-fixedLineCount;
+        const flexLineCount = this._grid.size.x-fixedLineCount;
 
         //(100% - fixedWidth) / flexLineCount
 
         return `calc(${100/flexLineCount}% - ${fixedWidth/flexLineCount}px)`;
     }
 
-
     public makeAreaWidthCSS(area: Area) : string {
-        let fixedLineCount = this.countFixedLineIn(area.position.x,area.position.x + area.size.x);
+        let fixedLineCount = this.countFixedColumnIn(area.position.x,area.position.x + area.size.x-1);
         const flexLineCount = area.size.x - fixedLineCount;
-        return `calc(calc(${flexLineCount} * ${this.makeFlexWidthPerBlockCSS()}) + calc(${fixedLineCount} * ${this.calculateFixedWidthPerBlock()}))`;
+        return `calc(calc(${flexLineCount} * ${this.makeFlexWidthPerBlockCSS()}) + calc(${fixedLineCount} * ${this.calculateFixedWidthPerBlock()}px))`;
     }
 
-    public makeOneFlexBlockHeightCSS() : string {
+    public makeFlexHeightPerBlockCSS() : string {
         const fixedLineCount = this._fixedRow.size;
         const fixedHeight = fixedLineCount*this.calculateFixedHeightPerBlock();
         const flexLineCount = this._grid.size.y-fixedLineCount;
@@ -124,65 +123,32 @@ export default class BlockSizing {
     }
 
     public makeAreaHeightCSS(area: Area) : string {
-        let fixedLineCount = this.countFixedLineIn(area.position.x,area.position.x + area.size.x);
-        const flexLineCount = area.size.x - fixedLineCount;
-        return `calc(calc(${flexLineCount} * ${this.makeFlexWidthPerBlockCSS()}) + calc(${fixedLineCount} * ${this.calculateFixedWidthPerBlock()}))`;
+        let fixedLineCount = this.countFixedRowIn(area.position.y,area.position.y + area.size.y-1);
+        const flexLineCount = area.size.y - fixedLineCount;
+        return `calc(calc(${flexLineCount} * ${this.makeFlexWidthPerBlockCSS()}) + calc(${fixedLineCount} * ${this.calculateFixedHeightPerBlock()}px))`;
     }
 
-    public calculatePosX(area: Area, areaWidth:number): number {
-        let fixedBlockCount = 0;
-        this._grid.areas.forEach((a) => {
-            if (a.isFixedWidth&&area.position.x>a.position.x&&a.checkLongRowInArea(area.position.y,area.size.y)) {
-                fixedBlockCount += a.size.x;
-            };
-        })
-
-        const flexBlockCount = this._grid.size.x - fixedBlockCount;
-        const flexibleBlockSize = this.calculateFlexibleBlockWidth(area,areaWidth);
-        return flexBlockCount*flexibleBlockSize + fixedBlockCount*this._fixedBlockWH.x;
+    public calculatePosX(area: Area, parentWidth:number): number {
+        let fixedLineCount = this.countFixedColumnIn(0,area.position.x-1);
+        const flexLineCount = area.position.x - fixedLineCount;
+        return flexLineCount * this.calculateFlexWidthPerBlock(parentWidth) + fixedLineCount * this.calculateFixedHeightPerBlock();
     }
 
-    public calculatePosY(area: Area, areaWidth:number): number {
-        let fixedBlockCount = 0;
-        this._grid.areas.forEach((a) => {
-            if (a.isFixedWidth&&area.position.y>a.position.y&&a.checkLongColumnInArea(area.position.y,area.size.y)) {
-                fixedBlockCount += a.size.y;
-            };
-        })
-
-        const flexBlockCount = this._grid.size.y - fixedBlockCount;
-        const flexibleBlockSize = this.calculateFlexibleBlockWidth(area,areaWidth);
-        return flexBlockCount*flexibleBlockSize + fixedBlockCount*this._fixedBlockWH.y;
+    public calculatePosY(area: Area, parentWidth:number): number {
+        let fixedLineCount = this.countFixedRowIn(0,area.position.x-1);
+        const flexLineCount = area.position.y - fixedLineCount;
+        return flexLineCount * this.calculateFlexHeightPerBlock(parentWidth) + fixedLineCount * this.calculateFixedHeightPerBlock();
     }
 
     public makePosXCSS(area: Area): string {
-        let fixedBlockCount = 0;
-        
-        this._grid.areas.forEach((a) => {
-            if (a.isFixedWidth&&area.position.x>a.position.x&&a.checkLongRowInArea(area.position.y,area.size.y)) {
-                fixedBlockCount += a.size.x;
-            };
-        })
-
-        const flexBlockCount = area.position.x - fixedBlockCount;
-        const oneFlexBlockWidth = this.makeOneFlexBlockWidthCSS(area);
-
-        const fixedBlocksWidth = fixedBlockCount * this._fixedBlockWH.x
-        return `calc(${fixedBlocksWidth}px + calc(${oneFlexBlockWidth} * ${flexBlockCount}))`;
+        let fixedLineCount = this.countFixedColumnIn(0,area.position.x-1);
+        const flexLineCount = area.position.x - fixedLineCount;
+        return `calc(calc(${flexLineCount} * ${this.makeFlexWidthPerBlockCSS()}) + calc(${fixedLineCount} * ${this.calculateFixedWidthPerBlock()}px))`;
     }
 
     public makePosYCSS(area: Area): string {
-        let fixedBlockCount = 0;
-        this._grid.areas.forEach((a) => {
-            if (a.isFixedHeight&&area.position.y>a.position.y&&a.checkLongRowInArea(area.position.y,area.size.y)) {
-                fixedBlockCount += a.size.y;
-            };
-        })
-
-        const flexBlockCount = area.position.y - fixedBlockCount;
-        const oneFlexBlockHeight = this.makeOneFlexBlockHeightCSS(area);
-
-        const fixedBlocksHeight = fixedBlockCount * this._fixedBlockWH.y
-        return `calc(${fixedBlocksHeight}px + calc(${oneFlexBlockHeight} * ${flexBlockCount}))`;
+        let fixedLineCount = this.countFixedRowIn(0,area.position.y-1);
+        const flexLineCount = area.position.y - fixedLineCount;
+        return `calc(calc(${flexLineCount} * ${this.makeFlexHeightPerBlockCSS()}) + calc(${fixedLineCount} * ${this.calculateFixedHeightPerBlock()}px))`;
     }
 }
