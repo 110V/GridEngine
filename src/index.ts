@@ -5,7 +5,6 @@ import Flu from "../grid-engine/Flu";
 import Grid from "../grid-engine/Grid";
 import { randomId } from "../grid-engine/Utils";
 import Block from "./components/block";
-import newBlock from "./components/block";
 
 // let textElement = document.createElement("div");
 // textElement.appendChild(document.createTextNode(gridEngine));
@@ -18,23 +17,21 @@ if(!rootElement)
     rootElement = new HTMLElement();
 
 
-const width = 20;
-const height = 20;
-let ge = new GridEngine(width,height,rootElement,styleSheet,{x:width,y:height});
+const width = 50;
+const height = 50;
+let ge = new GridEngine(width, height, rootElement, styleSheet, { x: width, y: height });
 
 
-let blocks:Block[][] = [];
-for(let x = 0;x<width;x++){
+let blocks: Block[][] = [];
+for (let x = 0; x < width; x++) {
     blocks[x] = new Array(height);
-    for(let y = 0;y<height;y++){
+    for (let y = 0; y < height; y++) {
         const selected = new Flu<boolean>(false);
-        const area = ge.mainGrid.makeArea({x:x,y:y},{x:1,y:1},false,false);
-        blocks[x][y] = new Block(selected,{x:x,y:y});
+        const area = ge.mainGrid.makeArea({ x: x, y: y }, { x: 1, y: 1 }, false, false);
+        blocks[x][y] = new Block(selected, { x: x, y: y });
         area.setChild(blocks[x][y]);
     }
 }
-
-
 
 
 

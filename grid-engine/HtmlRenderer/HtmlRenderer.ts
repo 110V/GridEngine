@@ -20,7 +20,7 @@ export default class HtmlRenderer {
 
   public render(mainGrid: Grid) {
     const html = this.renderGrid(mainGrid);
-    const css = this._styleManager.exportStyle()
+    const css = this._styleManager.exportCss()
     for(let i = 0;i<html.length;i++){
       this._root.appendChild(html[i]);
     }
@@ -31,9 +31,9 @@ export default class HtmlRenderer {
     let result: HTMLElement[] = []
     grid.areas.forEach((area) => {
       const id = area.id;
-      this._styleManager.areaSetter(grid, area, id);
       const rendered = area.render(this);
       if (rendered) {
+        this._styleManager.areaSetter(grid, area, rendered);
         result.push(rendered);
       }
     });

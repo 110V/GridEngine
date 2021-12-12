@@ -27,22 +27,19 @@ export default class StyleManager {
         this._defaultSize = defaultSize;
     }
 
-    private makePosProperty(grid:Grid, area:Area): Property[] {
-        const blockSizing = new BlockSizing(grid,this._defaultSize); 
-        const posXProperty: Property = { name: "left", value: blockSizing.makePosXCSS(area) };
-        const posYProperty: Property = { name: "top", value: blockSizing.makePosYCSS(area) };
-        return [posXProperty, posYProperty]
-    }
+    // private makePosProperty(grid:Grid, area:Area): Property[] {
+    //     const blockSizing = new BlockSizing(grid,this._defaultSize); 
+    //     const posXProperty: Property = { name: "left", value: blockSizing.makePosXCSS(area) };
+    //     const posYProperty: Property = { name: "top", value: blockSizing.makePosYCSS(area) };
+    //     return [posXProperty, posYProperty]
+    // }
 
-    public areaSetter(grid:Grid, area: Area, id: string) {
-        const blockSizing = new BlockSizing(grid,this._defaultSize); 
-
-        const widthProperty: Property = { name: "width", value: blockSizing.makeAreaWidthCSS(area) };
-        const heightPropety: Property = { name: "height", value: blockSizing.makeAreaHeightCSS(area) };
-
-        const posProperty = this.makePosProperty(grid,area);
-
-        this.addStyles(id, [widthProperty, heightPropety, ...posProperty]);
+    public areaSetter(grid:Grid, area: Area,div:HTMLElement) {
+        const blockSizing = new BlockSizing(grid,this._defaultSize);
+        div.style.width = blockSizing.makeAreaWidthCSS(area);
+        div.style.height = blockSizing.makeAreaHeightCSS(area);
+        div.style.left = blockSizing.makePosXCSS(area);
+        div.style.top = blockSizing.makePosYCSS(area);
     }
 
     private addStyle(target: string, name: string, value: string) {
@@ -56,13 +53,17 @@ export default class StyleManager {
         this._styles[target].push(...properties);
     }
 
-
-    public exportStyle(): string {
+    //use for media query
+    public exportCss(): string {
         let result: string = ``;
 
         for (const [key, value] of Object.entries(this._styles)) {
-            result += `#${key} {\n${value.map((property) => `    ${property.name}: ${property.value};`).join("\n")}\n}`;
+            result += `#${key} {\n${value.map((property) => `    ${this.makeStyle(property)}`).join("\n")}\n}`;
         }
         return this.basicCSS + result;
+    }
+
+    public makeStyle(property:Property): string {
+        return `${property.name}: ${property.value};`;
     }
 }

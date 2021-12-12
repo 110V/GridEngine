@@ -26,5 +26,6 @@ module.exports = {
         static: path.join(__dirname, 'dist'),
         hot: true,
         compress: true,
+        allowedHosts:["sgb.st"],
     },
 }
