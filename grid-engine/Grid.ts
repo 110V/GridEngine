@@ -26,8 +26,8 @@ export default class Grid {
         //TODO flu
     }
 
-    public makeArea(position: Position, size: Vector2,isWidthFixed:boolean = false,isHeightFiexed:boolean = false): Area {
-        const newArea = new Area(position, size,isWidthFixed,isHeightFiexed);
+    public makeArea(position: Position, size: Vector2,isWidthFixed:boolean = false,isHeightFiexed:boolean = false,id:string=randomId("area")): Area {
+        const newArea = new Area(position, size,isWidthFixed,isHeightFiexed,id);
         this._areas.push(newArea);
         return newArea;
     }

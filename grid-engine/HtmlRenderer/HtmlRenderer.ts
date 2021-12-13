@@ -20,7 +20,9 @@ export default class HtmlRenderer {
 
   public render(mainGrid: Grid) {
     const html = this.renderGrid(mainGrid);
-    const css = this._styleManager.exportCss()
+    const css = this._styleManager.exportCss();
+    this._styleManager.initRootElement(this._root);
+    
     for(let i = 0;i<html.length;i++){
       this._root.appendChild(html[i]);
     }
@@ -61,6 +63,16 @@ export default class HtmlRenderer {
       areaDiv.appendChild(result[i]);
     }
     return areaDiv;
+  }
+
+  public exportHtml(mainGrid:Grid):string{
+    const html = this.renderGrid(mainGrid);
+    const css = this._styleManager.exportCss()
+    for(let i = 0;i<html.length;i++){
+      this._root.appendChild(html[i]);
+    }
+    this._style.innerHTML = css;
+    return html.toString();
   }
 
 }

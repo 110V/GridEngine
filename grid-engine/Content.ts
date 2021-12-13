@@ -2,7 +2,7 @@ import Flu from "./Flu";
 import HtmlRenderer from "./HtmlRenderer/HtmlRenderer";
 import { randomId } from "./Utils";
 
-export default abstract class Content {
+export default class Content {
     protected _id:string = "";
     protected _htmlElement: HTMLElement;;
 
@@ -10,8 +10,8 @@ export default abstract class Content {
         return this._id;
     }
 
-    constructor(htmlElement:HTMLElement){
-        this._id = randomId("content");
+    constructor(htmlElement:HTMLElement,id = randomId("content")){
+        this._id = id;
         htmlElement.id = this._id;
         this._htmlElement = htmlElement;
     }

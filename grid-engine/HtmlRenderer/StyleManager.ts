@@ -12,15 +12,6 @@ interface Property {
 }
 
 export default class StyleManager {
-    private basicCSS =
-        `.root {
-            position: relative;
-        }
-
-        .area {
-            position: absolute;
-        }\n`
-        
     private _styles: { [key: string]: Property[] } = {};
     private _defaultSize:Vector2;
     constructor(defaultSize:Vector2){
@@ -40,6 +31,7 @@ export default class StyleManager {
         div.style.height = blockSizing.makeAreaHeightCSS(area);
         div.style.left = blockSizing.makePosXCSS(area);
         div.style.top = blockSizing.makePosYCSS(area);
+        div.style.position = "absolute";
     }
 
     private addStyle(target: string, name: string, value: string) {
@@ -60,10 +52,14 @@ export default class StyleManager {
         for (const [key, value] of Object.entries(this._styles)) {
             result += `#${key} {\n${value.map((property) => `    ${this.makeStyle(property)}`).join("\n")}\n}`;
         }
-        return this.basicCSS + result;
+        return result;
     }
 
     public makeStyle(property:Property): string {
         return `${property.name}: ${property.value};`;
+    }
+
+    public initRootElement(root:HTMLElement){
+        root.style.position = "relative";
     }
 }

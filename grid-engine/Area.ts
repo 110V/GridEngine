@@ -61,12 +61,12 @@ export default class Area {
         }
     }
 
-    constructor(position: Position, size: Vector2,isFixedWidth = false,isFixedHeight = false) {
+    constructor(position: Position, size: Vector2, isFixedWidth = false,isFixedHeight = false,id=randomId("area")) {
         this._isFixedWidth = isFixedWidth;
         this._isFixedHeight = isFixedHeight;
         this._position = position;
         this._size = size;
-        this._id = randomId("area");
+        this._id = id;
     }
 
     public render = (renderer: HtmlRenderer): HTMLElement | null => {

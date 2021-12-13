@@ -2,7 +2,7 @@ import Content from "../../grid-engine/Content";
 import Flu from "../../grid-engine/Flu";
 import { randomId } from "../../grid-engine/Utils";
 import { Vector2 } from "../../grid-engine/Vector2";
-import { ColorConfig } from "./colorConfig";
+import { ColorConfig } from "./ColorConfig";
 
 enum state {
     base,
