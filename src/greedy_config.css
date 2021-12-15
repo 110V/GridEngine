@@ -1,0 +1,16 @@
+@font-face {
+    font-family: 'InfinitySans-RegularA1';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/InfinitySans-RegularA1.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root{
+    --global-font-family: InfinitySans-RegularA1, Verdana, sans-serif;
+    --global-font-size-medium:14px;
+    --global-font-size-big:calc(1.2 * var(--global-font-size-medium));
+    --global-font-size-big:calc(0.8 * var(--global-font-size-small));
+    --global-primary-color-basic:#fcedeb;
+    --global-primary-color-deep:#ffffff;
+    --global-primary-color-light:white;
+}

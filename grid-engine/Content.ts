@@ -16,7 +16,10 @@ export default class Content {
         this._htmlElement = htmlElement;
     }
 
-    public render(renderer:HtmlRenderer):HTMLElement{
+    public render():HTMLElement{
+        return this._htmlElement;
+    }
+    public update():HTMLElement{
         return this._htmlElement;
     }
 }

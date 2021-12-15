@@ -7,6 +7,7 @@ import { Vector2 } from "./Vector2";
 
 
 export default class Grid {
+    private _rendered = false;
     private _size: Vector2 = { x: 0, y: 0 };
     private _areas: Area[] = [];
 
@@ -42,7 +43,15 @@ export default class Grid {
         return areas;
     }
 
-    public renderSubjects(renderer: HtmlRenderer): HTMLElement[] {
+    public render(renderer: HtmlRenderer): HTMLElement[] {
+        this._rendered = true;
         return renderer.renderGrid(this)
+    }
+
+    public update(renderer: HtmlRenderer): HTMLElement[] {
+        if (!this._rendered) {
+            return this.render(renderer);
+        }
+        return renderer.updateGrid(this)
     }
 }

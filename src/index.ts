@@ -1,5 +1,7 @@
 require('file-loader?name=[name].[ext]!./index.html');
 require('file-loader?name=[name].[ext]!./index.css');
+require('file-loader?name=[name].[ext]!./greedy.css');
+require('file-loader?name=[name].[ext]!./greedy_config.css');
 import GridEngine from "../grid-engine";
 import Content from "../grid-engine/Content";
 import Flu from "../grid-engine/Flu";
@@ -34,6 +36,7 @@ const init = () => {
     });
     area_title.setChild(content_title);
     const element_button = document.createElement("button");
+    element_button.className = "color-grid-button";
     element_button.innerText = "File";
     const content_filebtn = new Content(element_button,"filebtn");
     area_filebtn.setChild(content_filebtn);
@@ -42,7 +45,7 @@ const init = () => {
     const content = new Content(document.createElement("div"),"html_editor");
     area_htmlEditor.setChild(content);
 
-
+    
 
     gridEngine.render();
 

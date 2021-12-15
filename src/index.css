@@ -1,12 +1,18 @@
+@import url(greedy.css);
+body {
+    margin: 0;
+    padding: 0;
+ }
 #root{
     width: 1920px;
     height:1080px;
-    background-color: lightblue;
+    background-color: white;
     overflow: hidden;
 }
 
 #menu{
-    background-color: lightcoral;
+    background-color: var(--global-primary-color-deep);
+    box-shadow: 1px 10px 10px 4px #fcedebda;
 }
 
 #filebtn{
@@ -22,7 +28,16 @@
 }
 
 #html_editor{
-    background-color: lightsalmon;
+    background-color: var(--global-primary-color-deep);
     width: 100%;
     height: 100%;
+}
+
+
+.property_value_container{
+    
+}
+
+.value_name{
+
 }

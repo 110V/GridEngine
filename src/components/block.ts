@@ -41,7 +41,6 @@ export default class Block extends Content {
         })
         element.addEventListener("mousedown", () => {
             set(state.press);
-            console.log(position)
         })
         element.addEventListener("mouseleave", () => {
             set(state.base);

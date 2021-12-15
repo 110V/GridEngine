@@ -15,10 +15,12 @@ export default class Flu<T> {
         this._value = value;
         this._funcs.forEach((f) => {f(value)});
     }
-
-    public register(func:((value:T)=>void)):((value:T)=>void) {
+    //TODO make priority
+    public register(func:((value:T)=>void),firstRun:boolean = true):((value:T)=>void) {
         this._funcs.push(func);
-        func(this._value);
+        if(firstRun){
+            func(this._value);
+        }
         return this.set;
     }
 

@@ -7,8 +7,8 @@ import { randomId } from "./Utils";
 import { addVector2, Vector2 } from "./Vector2";
 
 export default class Area {
+    private _rendered:boolean = false; 
     private _id:string;
-    private _renderer:HtmlRenderer|null = null;
     private _position: Position = { x: 0, y: 0};
     private _size: Vector2 = { x: 0, y: 0 };
     private _child: Grid | Content | null = null;
@@ -47,18 +47,12 @@ export default class Area {
         return document.getElementById(this.id);
     }
 
-    public changeSize(size:Vector2,update = false){
+    public changeSize(size:Vector2){
         this._size = size;
-        if(update) {
-            this.update();
-        }
     }
 
-    public changePosition(position:Position,update = false){
+    public changePosition(position:Position){
         this._position = position;
-        if(update) {
-            this.update();
-        }
     }
 
     constructor(position: Position, size: Vector2, isFixedWidth = false,isFixedHeight = false,id=randomId("area")) {
@@ -70,24 +64,15 @@ export default class Area {
     }
 
     public render = (renderer: HtmlRenderer): HTMLElement | null => {
-        this._renderer = renderer;
+        this._rendered = true;
         return renderer.renderArea(this);
     }
 
-    public update() {
-        const element = this.findRenderedHtmlElement();
-        if (!this._renderer || !element) {
-            console.log("this Area can be updated after First Render");
-            return
+    public update(renderer: HtmlRenderer): HTMLElement | null{
+        if (!this._rendered) {
+            return this. render(renderer);
         }
-        const rendered = this.render(this._renderer);
-        if (rendered) {
-            rendered.innerHTML = rendered.innerHTML
-            //element.replaceWith(rendered);
-        }
-        else {
-            element.replaceWith(document.createElement("div"));
-        }
+        return renderer.updateArea(this);
     }
 
     public checkRowInArea(row:number) {  

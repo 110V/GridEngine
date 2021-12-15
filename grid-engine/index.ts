@@ -1,4 +1,5 @@
 import Area from "./Area";
+import Flu from "./Flu";
 import Grid from "./Grid";
 import HtmlRenderer from "./HtmlRenderer/HtmlRenderer";
 import { Vector2 } from "./Vector2";
@@ -6,18 +7,25 @@ import { Vector2 } from "./Vector2";
 
 export default class GridEngine {
     public mainGrid: Grid;
-    public mainRenderer: HtmlRenderer;
+    private _mainRenderer: HtmlRenderer;
 
     constructor(x: number, y: number, root: HTMLElement, style: HTMLElement, defaultSize:Vector2) {//TODO Add option interface
         this.mainGrid = new Grid({ x: x, y: y });
-        this.mainRenderer = new HtmlRenderer(root, style,defaultSize);
+        this._mainRenderer = new HtmlRenderer(root, style,defaultSize);
     }
 
     public render() {
-        this.mainRenderer.render(this.mainGrid);
+        this._mainRenderer.render(this.mainGrid);
     }
 
     public exportHTML():string{
-        return this.mainRenderer.exportHtml(this.mainGrid);
+        return this._mainRenderer.exportHtml(this.mainGrid);
+    }
+
+    public update(target:null|Grid|Area){
+        if(!target){
+            target = this.mainGrid;
+        }
+        target.update(this._mainRenderer);
     }
 }
