@@ -6,7 +6,7 @@ export default class CheckboxInput extends Content{
     constructor(name:string){//,value:Flu<boolean>){
         super(document.createElement("div"));
         const container = document.createElement("label")
-        container.className = "checkbox-container";
+        container.className = "checkbox-container value-component";
         const element_input = document.createElement("input");
         element_input.type = "checkbox";
         container.appendChild(element_input);

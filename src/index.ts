@@ -9,9 +9,13 @@ import Grid from "../grid-engine/Grid";
 import { randomId } from "../grid-engine/Utils";
 import Block from "./components/Block";
 import { PropertyEdit,InputType} from "./components/property/Property";
+import Coloris from "@melloware/coloris";
+require('file-loader?name=[name].[ext]!@melloware/coloris/dist/coloris.css');
 
 
 const init = () => {
+
+    
     const styleSheet = document.createElement("style");
     const root = document.getElementById("root");
 
@@ -49,6 +53,10 @@ const init = () => {
     area_htmlEditor.setChild(grid_htmlEditor);
 
     gridEngine.render();
+
+    Coloris({el: ".coloris"});
+    Coloris.init();
+    Coloris.close();
 }
 
 

@@ -1,7 +1,9 @@
 import Content from "../../../grid-engine/Content";
 import Grid from "../../../grid-engine/Grid";
 import Checkbox from "./Checkbox";
+import ColorPicker from "./ColorPicker";
 import NumberInput from "./NumberInput";
+import Select from "./Select";
 
 enum InputType{
     number,
@@ -32,9 +34,9 @@ class PropertyEdit extends Grid {
         element_area.innerText = this._name;
         area_propertyName.setChild(new Content(element_area));
         const nameArea = this.makeArea({x:0,y:0+1},{x:2,y:1});
-        nameArea.setChild(new Checkbox("test"));
+        nameArea.setChild(new Select("test"));
         const nameArea2 = this.makeArea({x:0,y:1+1},{x:2,y:1});
-        nameArea2.setChild(new NumberInput("height"));
+        nameArea2.setChild(new ColorPicker("color"));
         this._values.forEach((v,i)=>{
 
             // const valueArea = this.makeArea({x:1,y:i+1},{x:1,y:1});

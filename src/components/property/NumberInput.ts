@@ -5,7 +5,7 @@ export default class NumberInput extends Content{
     constructor(name:string){//,value:Flu<boolean>){
         super(document.createElement("div"));
         const element_name = document.createElement("div");
-        this._htmlElement.className = "numberinput-container";
+        this._htmlElement.className = "numberinput-container value-component";
         element_name.innerText = name;
         element_name.className = "numberinput-name";
         this._htmlElement.appendChild(element_name);

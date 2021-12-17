@@ -27,7 +27,9 @@
     outline:0;
 }
 
-
+.value-name{
+  margin-left: 10px;
+}
 /* The container */
 .checkbox-container {
     display: block;
@@ -115,9 +117,6 @@
 /* Firefox */
 .numberinput-container {
     font-family:var(--global-font-family) ;
-    display: inline-flex; 
-    justify-content: center; 
-    align-items: center;
     font-size: var(--global-font-size-medium);
     text-align: left;
 }
@@ -140,3 +139,34 @@
 .numberinput-input:focus{
     background-color: var(--global-primary-color-b);
 }
+
+.value-component{
+  font-size: var(--global-font-size-medium);
+  font-family: var(--global-font-family);
+  display: inline-flex; 
+  justify-content: center; 
+  align-items: center;
+}
+.color-btn{
+  width: 20px !important;
+  height: 20px !important;
+  border: black solid 2px ;
+  cursor: pointer !important;
+}
+
+
+.clr-field{
+  margin-left: 10px;
+}
+
+.clr-field button{
+  position: relative;
+  width: 100% !important;
+  height: 100%;
+}
+
+.clr-field input{
+  outline: none;
+  border: none;
+}
+
