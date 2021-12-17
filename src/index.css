@@ -6,31 +6,33 @@ body {
 #root{
     width: 1920px;
     height:1080px;
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     overflow: hidden;
 }
 
 #menu{
-    background-color: var(--global-primary-color-deep);
-    box-shadow: 1px 10px 10px 4px #fcedebda;
+    background-color: rgb(31, 31, 31);
 }
 
 #filebtn{
     width: 100%;
     height: 100%;
+    color:white;
 }
 
 #title{
     width: 100%;
     height: 100%;
     text-align: center;
-    margin-top:9px
+    margin-top:9px;
+    color:white;
 }
 
 #html_editor{
-    background-color: var(--global-primary-color-deep);
+    background-color: var(--global-primary-color-c);
     width: 100%;
     height: 100%;
+    border-left: black solid 3px;
 }
 
 
