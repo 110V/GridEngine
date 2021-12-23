@@ -102,7 +102,10 @@ export default class BlockSizing {
         const flexLineCount = this._grid.size.x-fixedLineCount;
 
         //(100% - fixedWidth) / flexLineCount
-
+        if(flexLineCount == 0) {
+            console.log("flex line require");
+            return "0";
+        }
         return `calc(${100/flexLineCount}% - ${fixedWidth/flexLineCount}px)`;
     }
 
@@ -116,9 +119,11 @@ export default class BlockSizing {
         const fixedLineCount = this._fixedRow.size;
         const fixedHeight = fixedLineCount*this.calculateFixedHeightPerBlock();
         const flexLineCount = this._grid.size.y-fixedLineCount;
-
         //(100% - fixedHeight) / flexLineCount
-
+        if(flexLineCount == 0) {
+            console.log("flex line require");
+            return "0";
+        }
         return `calc(${100/flexLineCount}% - ${fixedHeight/flexLineCount}px)`;
     }
 
