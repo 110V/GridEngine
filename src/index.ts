@@ -10,6 +10,7 @@ import { randomId } from "../grid-engine/Utils";
 import Block from "./components/Block";
 import { PropertyEdit,InputType} from "./components/property/Property";
 import Coloris from "@melloware/coloris";
+import { CssEditor } from "./components/CssEditor";
 require('file-loader?name=[name].[ext]!@melloware/coloris/dist/coloris.css');
 
 
@@ -49,8 +50,9 @@ const init = () => {
     const area_htmlEditor = grid_main.makeArea({x:17,y:1},{x:3,y:24},true,false);
     const content = new Content(document.createElement("div"),"html_editor");
     area_htmlEditor.setChild(content);
-    const grid_htmlEditor = new PropertyEdit("color",[{name:"r",value:10,inputType:InputType.number},{name:"r",value:10,inputType:InputType.number},{name:"r",value:10,inputType:InputType.number},{name:"r",value:10,inputType:InputType.number}]) 
-    area_htmlEditor.setChild(grid_htmlEditor);
+    const grid_cssEditor = new CssEditor();
+
+    area_htmlEditor.setChild(grid_cssEditor);
 
     gridEngine.render();
 

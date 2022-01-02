@@ -31,6 +31,7 @@ export default class StyleManager {
         div.style.height = blockSizing.makeAreaHeightCSS(area);
         div.style.left = blockSizing.makePosXCSS(area);
         div.style.top = blockSizing.makePosYCSS(area);
+        console.log(div.style.top,blockSizing.makePosYCSS(area));
         div.style.position = "absolute";
     }
 

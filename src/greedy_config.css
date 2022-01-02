@@ -9,7 +9,7 @@
     --global-font-family: InfinitySans-RegularA1, Verdana, sans-serif;
     --global-font-size-medium:14px;
     --global-font-size-big:calc(1.2 * var(--global-font-size-medium));
-    --global-font-size-big:calc(0.8 * var(--global-font-size-small));
+    --global-font-size-small:calc(0.8 * var(--global-font-size-medium));
 
     --global-primary-color-a:white;
     --global-primary-color-ab:#fceded;
