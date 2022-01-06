@@ -1,5 +1,4 @@
 import Area from "./Area";
-import Flu from "./Flu";
 import Grid from "./Grid";
 import HtmlRenderer from "./HtmlRenderer/HtmlRenderer";
 import { Vector2 } from "./Vector2";
@@ -15,7 +14,7 @@ export default class GridEngine {
     }
 
     public render() {
-        this._mainRenderer.render(this.mainGrid);
+        this._mainRenderer.renderMainGrid(this.mainGrid);
     }
 
     public exportHTML():string{

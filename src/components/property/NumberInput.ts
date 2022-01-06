@@ -1,9 +1,9 @@
 import Content from "../../../grid-engine/Content";
-import Flu from "../../../grid-engine/Flu";
+
 
 
 export default class NumberInput extends Content{
-    constructor(name:string,value:Flu<number>){
+    constructor(id:string,name:string){
         super(document.createElement("div"));
         const element_name = document.createElement("div");
         this._htmlElement.className = "numberinput-container value-component";
@@ -12,12 +12,8 @@ export default class NumberInput extends Content{
         this._htmlElement.appendChild(element_name);
         const element_input = document.createElement("input");
 
-        value.register((v)=>{
-            element_input.value = v.toString();
-        },true);
-
         element_input.addEventListener("change",()=>{
-            value.set(Number(element_input.value));
+            //value.set(Number(element_input.value));
         })
         
         element_input.type = "number";

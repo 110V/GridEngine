@@ -1,5 +1,4 @@
 import Content from "../../../grid-engine/Content";
-import Flu from "../../../grid-engine/Flu";
 import Grid from "../../../grid-engine/Grid";
 import Checkbox from "./Checkbox";
 import ColorPicker from "./ColorPicker";

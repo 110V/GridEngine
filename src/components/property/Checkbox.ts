@@ -1,19 +1,15 @@
 import Content from "../../../grid-engine/Content";
-import Flu from "../../../grid-engine/Flu";
 import Grid from "../../../grid-engine/Grid";
 
 export default class CheckboxInput extends Content{
-    constructor(name:string,value:Flu<boolean>){
+    constructor(id:string,name:string,logicName:string){
         super(document.createElement("div"));
         const container = document.createElement("label")
         container.className = "checkbox-container value-component";
         const element_input = document.createElement("input");
-        value.register((v)=>{
-            element_input.checked = v;
-        },true);
 
         element_input.addEventListener("change",(v)=>{
-            value.set(element_input.checked);
+            
         })
         
         element_input.type = "checkbox";

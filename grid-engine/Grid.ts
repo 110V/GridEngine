@@ -1,16 +1,31 @@
 import Area from "./Area";
-import Flu from "./Flu";
 import HtmlRenderer from "./HtmlRenderer/HtmlRenderer";
 import Position from "./Position";
 import { randomId } from "./Utils";
 import { Vector2 } from "./Vector2";
 
+enum ChangeTarget{
+    size,
+    area
+}
+enum ChangeType{
+    remove,
+    create,
+    change
+}
+
+interface GridChange{
+    target:ChangeTarget;
+    type:ChangeType;
+    pos?:Position;
+    size?:Vector2;
+}
 
 export default class Grid {
-    private _rendered = false;
     private _size: Vector2 = { x: 0, y: 0 };
-    private _areas: Area[] = [];
-
+    private _areas: {[id:string]:Area} = {};
+    private _changes: GridChange[] = [];
+    
     constructor(size: Vector2) {
         this._size = size;
     }
@@ -24,34 +39,21 @@ export default class Grid {
 
     public resizeGrid(size: Vector2) {
         this._size = size;
-        //TODO flu
+        this._changes.push({target:ChangeTarget.size,type:ChangeType.change,size:size});
     }
 
-    public makeArea(position: Position, size: Vector2,isWidthFixed:boolean = false,isHeightFiexed:boolean = false,id:string=randomId("area")): Area {
-        const newArea = new Area(position, size,isWidthFixed,isHeightFiexed,id);
-        this._areas.push(newArea);
+    public makeArea(pos: Position, size: Vector2,isWidthFixed:boolean = false,isHeightFiexed:boolean = false,id:string=randomId("area")): Area {
+        const newArea = new Area(pos, size,isWidthFixed,isHeightFiexed,id);
+        this._areas[id] = newArea;
+        this._changes.push({target:ChangeTarget.area,type:ChangeType.create,pos:pos,size:size});
         return newArea;
     }
 
-    public area(position: Position): Area[] {
-        let areas: Area[] = [];
-        this.areas.forEach((a) => {
-            if (a.position == position) {
-                areas.push(a);
-            }
-        })
-        return areas;
+    public area(id:string): Area {
+        return this._areas[id];
     }
 
     public render(renderer: HtmlRenderer): HTMLElement[] {
-        this._rendered = true;
         return renderer.renderGrid(this)
-    }
-
-    public update(renderer: HtmlRenderer): HTMLElement[] {
-        if (!this._rendered) {
-            return this.render(renderer);
-        }
-        return renderer.updateGrid(this)
     }
 }

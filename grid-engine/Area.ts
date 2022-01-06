@@ -1,5 +1,4 @@
 import Content from "./Content";
-import Flu from "./Flu";
 import Grid from "./Grid";
 import HtmlRenderer from "./HtmlRenderer/HtmlRenderer";
 import Position from "./Position";
@@ -14,6 +13,7 @@ export default class Area {
     private _child: Grid | Content | null = null;
     private _isFixedWidth:boolean = false;
     private _isFixedHeight:boolean = false;
+    private _htmlElement:HTMLElement = document.createElement("div");
 
     public get position() {
         return this._position;
@@ -39,6 +39,10 @@ export default class Area {
         return this._isFixedHeight;
     }
 
+    public get htmlElement(){
+        return this._htmlElement;
+    }
+
     public setChild = (child:Content|Grid)=>{
         this._child = child;
     }
@@ -61,18 +65,12 @@ export default class Area {
         this._position = position;
         this._size = size;
         this._id = id;
+        this._htmlElement.id = id;
     }
 
-    public render = (renderer: HtmlRenderer): HTMLElement | null => {
+    public render = (renderer: HtmlRenderer): HTMLElement => {
         this._rendered = true;
         return renderer.renderArea(this);
-    }
-
-    public update(renderer: HtmlRenderer): HTMLElement | null{
-        if (!this._rendered) {
-            return this. render(renderer);
-        }
-        return renderer.updateArea(this);
     }
 
     public checkRowInArea(row:number) {  
