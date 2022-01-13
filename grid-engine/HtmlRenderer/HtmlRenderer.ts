@@ -11,6 +11,7 @@ export default class HtmlRenderer {
   private _styleManager: StyleManager;
   private _root: HTMLElement;
   private _style: HTMLElement
+  private _staticElements: {[id:string]:HTMLElement} = {};
 
   constructor(root: HTMLElement, style: HTMLElement, defaultSize: Vector2) {
     this._root = root;
@@ -29,31 +30,53 @@ export default class HtmlRenderer {
     this._style.innerHTML = css;
   }
 
-  public renderGrid = (grid: Grid): HTMLElement[] => {
-    let result: HTMLElement[] = [];
-    for (let [_, area] of grid.areas) {
-      const rendered = area.render(this);
-      this._styleManager.areaSetter(grid, area, rendered);
-      result.push(rendered);
-  }
+  public renderGrid = (grid: Grid, sizeChanged: boolean, changedAreas: Area[]): HTMLElement[] => {
+    let newElements: HTMLElement[] = [];
 
-
-    return result;
-  }
-
-  public renderAreaInGrid = (grid: Grid, area: Area) => {
-    const rendered = area.render(this);
-    this._styleManager.areaSetter(grid, area, rendered);
-    const htmlElement = document.getElementById(area.id);
-    if (!htmlElement) {
-
+    for(let area of changedAreas) {
+      let htmlElement = this.getHtmlElementbyId(area.id);
+      if(htmlElement){
+        htmlElement.parentElement?.removeChild(htmlElement);
+      }
+      else{
+        htmlElement = area.render(this);
+        this._styleManager.areaSetter(grid, area, htmlElement);
+        newElements.push(htmlElement);
+      }
     }
+
+    if (sizeChanged) {
+      for (let area of grid.areas) {
+        const htmlElement = this.getHtmlElementbyId(area.id);
+        if (!htmlElement) {
+          continue;
+        }
+        this._styleManager.areaSetter(grid, area, htmlElement);
+      }
+    }
+
+    return newElements;
   }
 
+  public getHtmlElementbyId(id: string) {
+    let target = document.getElementById(id);
+    if(!target){
+      target = this._staticElements[id];
+    }
+    return target;
+  }
 
   public renderArea = (area: Area): HTMLElement => {
-    const areaDiv = area.htmlElement;
-    areaDiv.className = "area";
+    let areaDiv = this.getHtmlElementbyId(area.id);
+
+    if(!areaDiv){
+      areaDiv = document.createElement("div");
+      areaDiv.id = area.id;
+      areaDiv.className = "area";
+      if(area.isStatic){
+        this._staticElements[area.id] = areaDiv;
+      }
+    }
 
     let result: HTMLElement[];
 
@@ -65,36 +88,6 @@ export default class HtmlRenderer {
     }
     else {//area instance of Element
       result = [(area.child as Content).render()];
-    }
-
-    for (let i = 0; i < result.length; i++) {
-      areaDiv.appendChild(result[i]);
-    }
-
-    return areaDiv;
-  }
-
-  public updateArea = (area: Area): HTMLElement | null => {
-    const id = area.id;
-    let result: HTMLElement[];
-    if (!area.child) {
-      return null;
-    }
-    else if (area.child instanceof Grid) {
-
-    }
-    else {//area instance of Element
-    }
-
-    let areaDiv = document.getElementById(area.id);
-    if (!areaDiv) {
-      areaDiv = document.createElement("div");
-      areaDiv.id = id;
-      areaDiv.className = "area";
-    }
-
-    while (areaDiv.firstChild) {
-      areaDiv.removeChild(areaDiv.firstChild);
     }
 
     for (let i = 0; i < result.length; i++) {

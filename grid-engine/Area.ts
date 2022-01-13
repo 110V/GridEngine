@@ -6,14 +6,13 @@ import { randomId } from "./Utils";
 import { addVector2, Vector2 } from "./Vector2";
 
 export default class Area {
-    private _rendered:boolean = false; 
     private _id:string;
     private _position: Position = { x: 0, y: 0};
     private _size: Vector2 = { x: 0, y: 0 };
     private _child: Grid | Content | null = null;
     private _isFixedWidth:boolean = false;
     private _isFixedHeight:boolean = false;
-    private _htmlElement:HTMLElement = document.createElement("div");
+    private _isStatic:boolean = false;
 
     public get position() {
         return this._position;
@@ -39,8 +38,8 @@ export default class Area {
         return this._isFixedHeight;
     }
 
-    public get htmlElement(){
-        return this._htmlElement;
+    public get isStatic() {
+        return this._isStatic;
     }
 
     public setChild = (child:Content|Grid)=>{
@@ -65,11 +64,9 @@ export default class Area {
         this._position = position;
         this._size = size;
         this._id = id;
-        this._htmlElement.id = id;
     }
 
     public render = (renderer: HtmlRenderer): HTMLElement => {
-        this._rendered = true;
         return renderer.renderArea(this);
     }
 

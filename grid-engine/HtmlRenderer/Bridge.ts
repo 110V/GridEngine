@@ -47,6 +47,4 @@ export default class Bridge {
         }
         logic.callback.push(callback);
     }
-
-
 }

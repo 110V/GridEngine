@@ -20,11 +20,4 @@ export default class GridEngine {
     public exportHTML():string{
         return this._mainRenderer.exportHtml(this.mainGrid);
     }
-
-    public update(target:null|Grid|Area){
-        if(!target){
-            target = this.mainGrid;
-        }
-        target.update(this._mainRenderer);
-    }
 }

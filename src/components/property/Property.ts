@@ -43,34 +43,29 @@ class PropertyEdit extends Grid {
             const area_value = this.makeArea({ x: 0, y: i + 1 }, { x: 2, y: 1 }, false, false);
             switch (v.inputType) {
                 case InputType.number: {
-                    const flu = new Flu<number>(v.value);
-                    const content_number = new NumberInput(v.name, flu);
+                    const content_number = new NumberInput(v.name,"test");
                     area_value.setChild(content_number);
                     break;
                 }
                 case InputType.color: {
-                    const flu = new Flu<string>(v.value);
-                    const content_color = new ColorPicker(v.name, flu);
+                    const content_color = new ColorPicker(v.name,"test");
                     area_value.setChild(content_color);
                     break;
                 }
                 case InputType.checkbox: {
-                    const flu = new Flu<boolean>(v.value);
-                    const content_checkbox = new Checkbox(v.name, flu);
+                    const content_checkbox = new Checkbox(v.name,"test","logic");
                     area_value.setChild(content_checkbox);
                     break;
                 }
                 case InputType.select: {
-                    const flu = new Flu<string>(v.value);
                     if (!v.menus)
                         break;
-                    const content_select = new SelectMenu(v.name, flu, v.menus);
+                    const content_select = new SelectMenu(v.name, v.menus);
                     area_value.setChild(content_select);
                     break;
                 }
                 case InputType.text: {
-                    const flu = new Flu<string>(v.value);
-                    const content_text = new TextInput(v.name, flu);
+                    const content_text = new TextInput(v.name);
                     area_value.setChild(content_text);
                     break;
                 }

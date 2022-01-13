@@ -4,10 +4,8 @@ require('file-loader?name=[name].[ext]!./greedy.css');
 require('file-loader?name=[name].[ext]!./greedy_config.css');
 import GridEngine from "../grid-engine";
 import Content from "../grid-engine/Content";
-import Flu from "../grid-engine/Flu";
 import Grid from "../grid-engine/Grid";
 import { randomId } from "../grid-engine/Utils";
-import Block from "./components/Block";
 import { PropertyEdit,InputType} from "./components/property/Property";
 import Coloris from "@melloware/coloris";
 import { CssEditor } from "./components/CssEditor";
@@ -24,7 +22,7 @@ const init = () => {
         return;
     }
 
-    const title:Flu<string> = new Flu("No Title");
+    // const title:Flu<string> = new Flu("No Title");
 
     const gridEngine = new GridEngine(20, 25, root, styleSheet, { x: 1920, y: 1080 });
     const grid_main  = gridEngine.mainGrid;
@@ -37,9 +35,6 @@ const init = () => {
     const area_title = grid_menu.makeArea({x:1,y:0},{x:25-2,y:1},false,false);
     const element_title = document.createElement("div");
     const content_title = new Content(element_title,"title");
-    title.register((t)=>{
-        element_title.innerText = t;
-    });
     area_title.setChild(content_title);
     const element_button = document.createElement("button");
     element_button.className = "color-grid-button";

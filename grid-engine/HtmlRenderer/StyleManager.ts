@@ -25,13 +25,12 @@ export default class StyleManager {
     //     return [posXProperty, posYProperty]
     // }
 
-    public areaSetter(grid:Grid, area: Area,div:HTMLElement) {
+    public areaSetter(grid:Grid, area: Area, div:HTMLElement) {
         const blockSizing = new BlockSizing(grid,this._defaultSize);
         div.style.width = blockSizing.makeAreaWidthCSS(area);
         div.style.height = blockSizing.makeAreaHeightCSS(area);
         div.style.left = blockSizing.makePosXCSS(area);
         div.style.top = blockSizing.makePosYCSS(area);
-        console.log(div.style.top,blockSizing.makePosYCSS(area));
         div.style.position = "absolute";
     }
 

@@ -4,7 +4,7 @@ import { randomId } from "./Utils";
 
 export default class Content {
     protected _id: string = "";
-    protected _htmlElement: HTMLElement;;
+    protected _htmlElement: HTMLElement;
     protected _isStatic: boolean = false;
     private _initialized: boolean = false;
 
