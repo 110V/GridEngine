@@ -13,6 +13,8 @@ export default class Area {
     private _isFixedWidth:boolean = false;
     private _isFixedHeight:boolean = false;
     private _isStatic:boolean = false;
+    private _isPropertyChanged:boolean = false;
+    private _isChildChanged:boolean = false;
 
     public get position() {
         return this._position;
@@ -42,8 +44,18 @@ export default class Area {
         return this._isStatic;
     }
 
+    public set position(position: Position) {
+        this._position = position; 
+    }
+
+    public set size(size:Vector2){
+        this._size = size;
+    }
+
+
     public setChild = (child:Content|Grid)=>{
         this._child = child;
+        this._isChildChanged = true;
     }
 
     public findRenderedHtmlElement():HTMLElement|null {
@@ -51,6 +63,7 @@ export default class Area {
     }
 
     public changeSize(size:Vector2){
+        this._isPropertyChanged = true;
         this._size = size;
     }
 

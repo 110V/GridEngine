@@ -1,5 +1,6 @@
 import Content from "../../../grid-engine/Content";
 import Grid from "../../../grid-engine/Grid";
+import Bridge from "../../../grid-engine/Bridge";
 
 interface Menu {
   key: string,
@@ -7,7 +8,7 @@ interface Menu {
 }
 
 class SelectMenu extends Content {
-  constructor(name: string, menus: Menu[]) {
+  constructor(name: string, menus: Menu[],ouputLogicName:string,bridge:Bridge) {
     super(document.createElement("div"));
     this._htmlElement.className = "value-component";
     const dropdown = document.createElement("div");
@@ -19,15 +20,16 @@ class SelectMenu extends Content {
 
     const element_input = document.createElement("input");
     element_input.type = "hidden"
-    element_input.name = name
-    element_input.addEventListener("change", () => {
-      //value.set(element_input.value);
-    });
+    element_input.name = name;
 
     dropdown.appendChild(element_input);
+    element_input.value="center";
     element_input.addEventListener("change", () => {
-      element_input.value
+      console.log("aa");
+      bridge.runLogic("ouputLogicName",element_input.value);
+      console.log("킄크");
     })
+    console.log(element_input.onchange=()=>{console.log("a")});
     dropdown.innerHTML += `
         <i class="dropdown icon"></i>
         <div class="default text">${name}</div>

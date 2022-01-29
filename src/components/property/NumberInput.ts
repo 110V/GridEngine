@@ -1,9 +1,10 @@
 import Content from "../../../grid-engine/Content";
+import Bridge from "../../../grid-engine/Bridge";
 
 
 
 export default class NumberInput extends Content{
-    constructor(id:string,name:string){
+    constructor(id:string,name:string,ouputLogicName:string,bridge:Bridge){
         super(document.createElement("div"));
         const element_name = document.createElement("div");
         this._htmlElement.className = "numberinput-container value-component";

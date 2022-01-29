@@ -45,7 +45,15 @@ const init = () => {
     const area_htmlEditor = grid_main.makeArea({x:17,y:1},{x:3,y:24},true,false);
     const content = new Content(document.createElement("div"),"html_editor");
     area_htmlEditor.setChild(content);
-    const grid_cssEditor = new CssEditor();
+    gridEngine.bridge.createLogic("alert",true,true,(_,value)=>{
+        alert(value);
+        return null;
+    })
+    gridEngine.bridge.createLogic("css_border_color_setter",true,false,(_,color)=>{
+        
+        return {name:"alert",value:color};
+    })
+    const grid_cssEditor = new CssEditor(gridEngine.bridge);
 
     area_htmlEditor.setChild(grid_cssEditor);
 

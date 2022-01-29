@@ -1,5 +1,5 @@
-import Content from "../Content";
-import Grid from "../Grid";
+import Content from "./Content";
+import Grid from "./Grid";
 
 interface Logic{
     name:string,
