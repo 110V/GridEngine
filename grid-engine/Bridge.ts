@@ -1,3 +1,4 @@
+import Area from "./Area";
 import Content from "./Content";
 import Grid from "./Grid";
 
@@ -11,7 +12,7 @@ interface Logic{
 
 export default class Bridge {
     private _logics:{ [name: string]: Logic } = {};
-    private _loadedObjects:{[id:string]:Grid|Content} = {};
+    private _loadedObjects:{[id:string]:Grid|Area|Content} = {};
 
     public createLogic(name:string,allowIn:boolean,allowOut:boolean,func:(  (get:(id:string)=>any,value:any)=>{name:string,value:any}|null)){
         const logic:Logic = {name:name,allowIn:allowIn,allowOut:allowOut,func:func};
@@ -36,8 +37,12 @@ export default class Bridge {
         }
     }
 
-    private getObject(id:string):Grid|Content {
+    private getObject(id:string):Grid|Area|Content {
         return this._loadedObjects[id];
+    }
+
+    public addObject(object:Grid|Area|Content) {
+        this._loadedObjects[object.id] = object;
     }
 
     public registerLogic(name:string,callback:((value:any)=>void)){

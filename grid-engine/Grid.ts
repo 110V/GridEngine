@@ -10,9 +10,10 @@ export default class Grid {
     private _sizeChanged: boolean = false;
     private _newAreas: Area[] = [];
     private _removedAreas: Area[] = [];
-
-    constructor(size: Vector2) {
+    private _id:string;
+    constructor(size: Vector2,id = randomId("grid")) {
         this._size = size;
+        this._id = id;
     }
 
     public get areas() {
@@ -20,6 +21,9 @@ export default class Grid {
     }
     public get size() {
         return this._size;
+    }
+    public get id(){
+        return this._id;
     }
 
     public resizeGrid(size: Vector2) {

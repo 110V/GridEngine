@@ -3,6 +3,7 @@ import Grid from "./Grid";
 import Bridge from "./Bridge";
 import HtmlRenderer from "./HtmlRenderer/HtmlRenderer";
 import { Vector2 } from "./Vector2";
+import Content from "./Content";
 
 
 export default class GridEngine {
@@ -31,5 +32,31 @@ export default class GridEngine {
 
     public exportHTML():string{
         return this._mainRenderer.exportHtml(this.mainGrid);
+    }
+
+    public addObjectToBridge(object:Grid|Content|Area,containChilds:boolean){
+        this.bridge.addObject(object);
+        if(!containChilds||object instanceof Content){
+            return;
+        }
+        const findChilds = (object:Grid)=>{
+            object.areas.forEach(area=>{
+                this.bridge.addObject(area);
+                if(!area.child){
+                    return;
+                }
+                this.bridge.addObject(area.child);
+                if(area.child instanceof Grid){
+                    findChilds(area.child);
+                }
+            });
+        }
+        if(object instanceof Grid){
+            findChilds(object);
+        }else if (object instanceof Area){
+            if(object.child instanceof Grid){
+                findChilds(object.child);
+            }
+        }
     }
 }
