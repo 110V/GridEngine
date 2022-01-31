@@ -1,4 +1,4 @@
-import Bridge from "./HtmlRenderer/Bridge";
+import Bridge from "./Bridge";
 import HtmlRenderer from "./HtmlRenderer/HtmlRenderer";
 import { randomId } from "./Utils";
 

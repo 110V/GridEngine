@@ -13,7 +13,7 @@ export default class Area {
     private _isFixedWidth:boolean = false;
     private _isFixedHeight:boolean = false;
     private _isStatic:boolean = false;
-    private _isPropertyChanged:boolean = false;
+    private _isTransformChanged:boolean = false;
     private _isChildChanged:boolean = false;
 
     public get position() {
@@ -44,18 +44,28 @@ export default class Area {
         return this._isStatic;
     }
 
+    public get isTransformChanged(){
+        return this._isTransformChanged;
+    }
+
+    public get isChildChanged(){
+        return this._isTransformChanged;
+    }
+
     public set position(position: Position) {
-        this._position = position; 
+        this._position = position;
+        this._isTransformChanged = true;
     }
 
     public set size(size:Vector2){
         this._size = size;
+        this._isTransformChanged = true;
     }
 
 
     public setChild = (child:Content|Grid)=>{
-        this._child = child;
         this._isChildChanged = true;
+        this._child = child;
     }
 
     public findRenderedHtmlElement():HTMLElement|null {
@@ -63,11 +73,12 @@ export default class Area {
     }
 
     public changeSize(size:Vector2){
-        this._isPropertyChanged = true;
+        this._isTransformChanged = true;
         this._size = size;
     }
 
     public changePosition(position:Position){
+        this._isTransformChanged = true;
         this._position = position;
     }
 
@@ -77,10 +88,22 @@ export default class Area {
         this._position = position;
         this._size = size;
         this._id = id;
+        this._isChildChanged = true;
+        this._isTransformChanged = true;
     }
 
-    public render = (renderer: HtmlRenderer): HTMLElement => {
-        return renderer.renderArea(this);
+    public render = (renderer: HtmlRenderer): HTMLElement|null => {
+        let result:HTMLElement|null = null;
+        this._isTransformChanged = false;
+        if(this._isChildChanged){
+            if(this._child){
+                result = renderer.renderArea(this,this._child.render(renderer));
+            }
+            else{
+                result = renderer.renderArea(this,[]);
+            }
+        }
+        return result;
     }
 
     public checkRowInArea(row:number) {  

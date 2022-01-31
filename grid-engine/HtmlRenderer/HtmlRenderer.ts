@@ -30,32 +30,28 @@ export default class HtmlRenderer {
     this._style.innerHTML = css;
   }
 
-  public renderGrid = (grid: Grid, sizeChanged: boolean, changedAreas: Area[]): HTMLElement[] => {
-    let newElements: HTMLElement[] = [];
-
-    for(let area of changedAreas) {
-      let htmlElement = this.getHtmlElementbyId(area.id);
-      if(htmlElement){
-        htmlElement.parentElement?.removeChild(htmlElement);
+  public repositionAreas(grid: Grid) {
+    grid.areas.forEach(area => {
+      const element = this.getHtmlElementbyId(area.id)
+      if (!element) {
+        return;
       }
-      else{
-        htmlElement = area.render(this);
-        this._styleManager.areaSetter(grid, area, htmlElement);
-        newElements.push(htmlElement);
-      }
-    }
+      this._styleManager.areaSetter(grid,area,element);
+    });
+  }
 
-    if (sizeChanged) {
-      for (let area of grid.areas) {
-        const htmlElement = this.getHtmlElementbyId(area.id);
-        if (!htmlElement) {
-          continue;
-        }
-        this._styleManager.areaSetter(grid, area, htmlElement);
-      }
-    }
+  public setArea(grid:Grid,area:Area,element:HTMLElement){
+      this._styleManager.areaSetter(grid,area,element);
+  }
 
-    return newElements;
+  public unloadAreas(remove:Area[]){
+    remove.forEach(area => {
+      const element = this.getHtmlElementbyId(area.id);
+      if (!element) {
+        return;
+      }
+      element.parentElement?.removeChild(element);
+    });
   }
 
   public getHtmlElementbyId(id: string) {
@@ -66,9 +62,8 @@ export default class HtmlRenderer {
     return target;
   }
 
-  public renderArea = (area: Area): HTMLElement => {
+  public renderArea = (area: Area,child:HTMLElement[]|HTMLElement): HTMLElement => {
     let areaDiv = this.getHtmlElementbyId(area.id);
-
     if(!areaDiv){
       areaDiv = document.createElement("div");
       areaDiv.id = area.id;
@@ -78,22 +73,19 @@ export default class HtmlRenderer {
       }
     }
 
-    let result: HTMLElement[];
-
-    if (!area.child) {
-      return areaDiv;
+    if(child instanceof HTMLElement){
+      child = [child];
     }
-    else if (area.child instanceof Grid) {
-      result = area.child.render(this);
+    if(child.length>0){
+      for(let i = 0;i<child.length;i++){
+        areaDiv.appendChild(child[i]);
+      }
     }
-    else {//area instance of Element
-      result = [(area.child as Content).render()];
+    else{
+      while (areaDiv.lastElementChild) {
+        areaDiv.removeChild(areaDiv.lastElementChild);
+      }
     }
-
-    for (let i = 0; i < result.length; i++) {
-      areaDiv.appendChild(result[i]);
-    }
-
     return areaDiv;
   }
 
