@@ -19,5 +19,7 @@ export default class TextInput extends Content {
         element_input.className = "numberinput-input"
         this._htmlElement.appendChild(element_input);
         
+        
+
     }
 }
