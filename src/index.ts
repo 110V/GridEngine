@@ -7,7 +7,7 @@ import Content from "../grid-engine/Content";
 import Grid from "../grid-engine/Grid";
 import { randomId } from "../grid-engine/Utils";
 import { PropertyEdit,InputType} from "./components/property/Property";
-import Coloris from "@melloware/coloris";
+import Coloris from "@melloware/coloris"
 import { CssEditor } from "./components/CssEditor";
 require('file-loader?name=[name].[ext]!@melloware/coloris/dist/coloris.css');
 

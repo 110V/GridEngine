@@ -4,7 +4,7 @@ module.exports = {
     mode: 'development',//or production
     devtool: 'source-map',
     resolve: {
-        extensions: ['.ts', '.js', '.jsx'],
+        extensions: ['.ts', '.tsx', '.js'],
     },
     entry: {
         main: path.resolve(__dirname, "./src/index.ts")
@@ -16,8 +16,9 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.ts/,
-                use: 'ts-loader',
+                test: /\.(ts|js)x?$/,
+                exclude: /node_modules/,
+                use: 'babel-loader'
             }
         ]
         

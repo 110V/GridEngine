@@ -1,10 +1,12 @@
 import Content from "../../../grid-engine/Content";
-import Grid from "../../../grid-engine/Grid";
 import Bridge from "../../../grid-engine/Bridge";
+/** @jsx jsx */
+import { jsx } from "@src/jsxRenderer";
 
 export default class CheckboxInput extends Content{
     constructor(id:string,name:string,ouputLogicName:string,bridge:Bridge){
-        super(document.createElement("div"));
+        super(<div id={id}></div>);
+        
         this._htmlElement.id = id;
         const container = document.createElement("label")
         container.className = "checkbox-container value-component";
