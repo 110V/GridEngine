@@ -1,4 +1,4 @@
-import Content from "../../../grid-engine/Content";
+import Content from "../../../grid-engine/Content/Content";
 import Grid from "../../../grid-engine/Grid";
 import Bridge from "../../../grid-engine/Bridge";
 import { randomId } from "../../../grid-engine/Utils";
@@ -57,7 +57,7 @@ class PropertyEdit extends Grid {
                     break;
                 }
                 case InputType.checkbox: {
-                    const content_checkbox = new Checkbox(randomId("checkbox"),v.name,v.outputLogic,this._bridge);
+                    const content_checkbox = new Checkbox(randomId("checkbox"),v.name,false,v.outputLogic,this._bridge);
                     area_value.setChild(content_checkbox);
                     break;
                 }

@@ -1,5 +1,5 @@
 import Area from "./Area";
-import Content from "./Content";
+import Content from "./Content/Content";
 import Grid from "./Grid";
 
 interface Logic{

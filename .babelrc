@@ -6,6 +6,7 @@
     "plugins": [
       "@babel/plugin-proposal-class-properties",
       "@babel/plugin-transform-react-jsx",
+      "@vanilla-extract/babel-plugin",
       ["module-resolver",
       {
         "alias":{

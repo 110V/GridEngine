@@ -1,4 +1,4 @@
-import Content from "../../../grid-engine/Content";
+import Content from "../../../grid-engine/Content/Content";
 import Bridge from "../../../grid-engine/Bridge";
 
 

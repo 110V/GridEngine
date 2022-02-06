@@ -1,5 +1,5 @@
 import Area from "../Area";
-import Content from "../Content";
+import Content from "../Content/Content";
 import Grid from "../Grid";
 import Position from "../Position";
 import { Vector2 } from "../Vector2";

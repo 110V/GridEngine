@@ -1,4 +1,4 @@
-import Content from "./Content";
+import Content from "./Content/Content";
 import Grid from "./Grid";
 import HtmlRenderer from "./HtmlRenderer/HtmlRenderer";
 import Position from "./Position";

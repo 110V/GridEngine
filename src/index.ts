@@ -3,7 +3,7 @@ require('file-loader?name=[name].[ext]!./index.css');
 require('file-loader?name=[name].[ext]!./greedy.css');
 require('file-loader?name=[name].[ext]!./greedy_config.css');
 import GridEngine from "../grid-engine";
-import Content from "../grid-engine/Content";
+import Content from "../grid-engine/Content/Content";
 import Grid from "../grid-engine/Grid";
 import { randomId } from "../grid-engine/Utils";
 import { PropertyEdit,InputType} from "./components/property/Property";
@@ -11,18 +11,18 @@ import Coloris from "@melloware/coloris"
 import { CssEditor } from "./components/CssEditor";
 require('file-loader?name=[name].[ext]!@melloware/coloris/dist/coloris.css');
 
+import { globalVarClass } from "./GlobalStyles.css";
 
 const init = () => {
 
-    
     const styleSheet = document.createElement("style");
     const root = document.getElementById("root");
 
     if(!root){
         return;
     }
+    root.className = globalVarClass;
 
-    // const title:Flu<string> = new Flu("No Title");
 
     const gridEngine = new GridEngine(20, 25, root, styleSheet, { x: 1920, y: 1080 });
     const grid_main  = gridEngine.mainGrid;

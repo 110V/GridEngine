@@ -3,7 +3,7 @@ import Grid from "./Grid";
 import Bridge from "./Bridge";
 import HtmlRenderer from "./HtmlRenderer/HtmlRenderer";
 import { Vector2 } from "./Vector2";
-import Content from "./Content";
+import Content from "./Content/Content";
 
 
 export default class GridEngine {

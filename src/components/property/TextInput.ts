@@ -1,4 +1,4 @@
-import Content from "../../../grid-engine/Content";
+import Content from "../../../grid-engine/Content/Content";
 import Grid from "../../../grid-engine/Grid";
 
 export default class TextInput extends Content {
