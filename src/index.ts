@@ -34,17 +34,17 @@ const init = () => {
     grid_menu.makeArea({x:10,y:0},{x:1,y:1},true,false);//dummmy
     const area_title = grid_menu.makeArea({x:1,y:0},{x:25-2,y:1},false,false);
     const element_title = document.createElement("div");
-    const content_title = new Content(element_title,"title");
-    area_title.setChild(content_title);
+   // const content_title = new Content(element_title,"title");
+    //area_title.setChild(content_title);
     const element_button = document.createElement("button");
     element_button.className = "color-grid-button";
     element_button.innerText = "File";
-    const content_filebtn = new Content(element_button,"filebtn");
-    area_filebtn.setChild(content_filebtn);
+    //const content_filebtn = new Content(element_button,"filebtn");
+    //area_filebtn.setChild(content_filebtn);
 
     const area_htmlEditor = grid_main.makeArea({x:17,y:1},{x:3,y:24},true,false);
-    const content = new Content(document.createElement("div"),"html_editor");
-    area_htmlEditor.setChild(content);
+   // const content = new Content(document.createElement("div"),"html_editor");
+   // area_htmlEditor.setChild(content);
     gridEngine.bridge.createLogic("alert",true,true,(_,value)=>{
         alert(value);
         return null;

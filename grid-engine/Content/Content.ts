@@ -7,10 +7,12 @@ export default class Content {
     protected _id: string = "";
     protected _htmlElement: HTMLElement|null = null;
     protected _isStatic: boolean = false;
-    private _render:(()=>VirtualElement)|null = null;
+    protected _render:(()=>VirtualElement)|null = null;
+    protected _bridge: Bridge;
     private prevRender:VirtualElement|null = null;
     
-    constructor(id = randomId("content"), render:(()=>VirtualElement)|null = null) {
+    constructor(bridge:Bridge,id = randomId("content"), render:(()=>VirtualElement)|null = null) {
+        this._bridge = bridge;
         this._id = id;
         this._render = render;
     }
@@ -24,9 +26,13 @@ export default class Content {
 
     public render(): HTMLElement {
         if(this._render){
+
             const rendered = this._render();
+            
             if(!this._htmlElement){
-                return render(rendered);
+                this._htmlElement = render(rendered);
+                console.log(this._htmlElement);
+                return this._htmlElement;
             }
             
             update(rendered,this.prevRender,this._htmlElement);

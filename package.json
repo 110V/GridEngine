@@ -4,7 +4,7 @@
   "description": "grid engine",
   "main": "index.js",
   "scripts": {
-    "build-watch": "webpack --watch",
+    "build-watch": "webpack --watch --stats-error-details",
     "dev": "webpack-dev-server --hot",
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
