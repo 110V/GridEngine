@@ -31,15 +31,16 @@ export default class Content {
             
             if(!this._htmlElement){
                 this._htmlElement = render(rendered);
-                console.log(this._htmlElement);
+                this.prevRender = rendered;
                 return this._htmlElement;
             }
-            
             update(rendered,this.prevRender,this._htmlElement);
+            this.prevRender = rendered;
         }
         else{
             return document.createElement("div");
         }
+        
         return this._htmlElement;
     }
 }

@@ -55,7 +55,7 @@ class PropertyEdit extends Grid {
                     break;
                 }
                 case InputType.checkbox: {
-                    const content_checkbox = new Checkbox(randomId("checkbox"),v.name,false,v.outputLogic,this._bridge);
+                    const content_checkbox = new Checkbox(randomId("checkbox"),v.name,true,v.outputLogic,this._bridge);
                     area_value.setChild(content_checkbox);
                     break;
                 }
@@ -63,6 +63,7 @@ class PropertyEdit extends Grid {
                     if (!v.menus)
                         break;
                     const content_select = new SelectMenu(v.name, v.menus,v.outputLogic,this._bridge);
+                    console.log(v.menus);
                     area_value.setChild(content_select);
                     break;
                 }

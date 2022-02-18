@@ -11,6 +11,7 @@ function createElement(tag: string, options: any, childs: VirtualElement[]): Vir
 
 function render(velement: VirtualElement): HTMLElement {
     const element = document.createElement(velement.tag);
+
     Object.assign(element, velement.options);
     if (velement.childs) {
         velement.childs.forEach(child => {
@@ -53,8 +54,11 @@ function update(newEl: string | VirtualElement | null, prevEl: string | VirtualE
         else if (prevEl.options !== newv.options) {
             while (element.attributes.length > 0) {
                 element.removeAttributeNode(element.attributes[0]);
+                //prevEl의 모든 key에 대한 value 를 null로 넣어서 assign 해야함
+                
             }
             Object.assign(element, newv.options);
+            
         }
         const prevLength = prevv.childs.length;
         const newLength = newv.childs.length;

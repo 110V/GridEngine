@@ -21,17 +21,18 @@ export default class CheckboxInput extends Content {
     protected _render = ()=>{
         return (<div id={this.id}>
             <label className={style.container}>
-                <input className={style.hide} type="checkbox" onChange={this.onChanged}/>
+                <input className={style.hide} type="checkbox" onchange={this.onChanged}/>
                 <span className={style.box}>
                     <div className={this._isChecked?style.checked:''}/>
                 </span>
                 <div className={style.name} >{this._name}</div>
             </label>
-        </div>)   
+        </div>)
     }
 
     private onChanged = ()=>{
-        
+        this._isChecked = !this._isChecked;
+        this.render();
     }
 
 
