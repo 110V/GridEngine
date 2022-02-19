@@ -4,7 +4,7 @@ import { VirtualElement } from "grid-engine/Content/Vdom";
 /** @jsx jsx */
 import { jsx } from "@src/../grid-engine/Content/jsxRenderer";
 
-
+import style from './ColorPicker.css';
 
 export default class ColorPicker extends Content {
     private _name:string;
@@ -17,9 +17,9 @@ export default class ColorPicker extends Content {
     }
 
     protected _render = ()=>{
-        return (<div className="value-component">
-            <div className="value-name">{this._name}</div>
-            <input type="text" className="color-btn coloris" value="white" />
+        return (<div className={style.container}>
+            <div>{this._name}</div>
+            <input type="text" className={"coloris "+style.button} value="white" />
         </div>)
     }
 }
