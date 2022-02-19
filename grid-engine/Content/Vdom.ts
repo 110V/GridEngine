@@ -5,7 +5,7 @@ interface VirtualElement {
     childs: (VirtualElement | string)[],
 }
 
-function createElement(tag: string, options: any, childs: VirtualElement[]): VirtualElement {
+function createElement(tag: string, options: any, childs: (VirtualElement|string)[]): VirtualElement {
     return { tag, options, childs };
 }
 
