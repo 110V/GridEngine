@@ -3,7 +3,7 @@ import Bridge from "../../../grid-engine/Bridge";
 import TextInput from "./TextInput";
 /** @jsx jsx */
 import { jsx } from "@src/../grid-engine/Content/jsxRenderer";
-
+import style from './TextInput.css';
 
 export default class NumberInput extends Content{
     private _name:string;
@@ -13,9 +13,9 @@ export default class NumberInput extends Content{
     }
     protected _render = ()=>{
         return (
-        <div className="numberinput-container value-component">
-            <div className="numberinput-name">{this._name}</div>
-            <input type="number" className="numberinput-input"/>
+        <div className={style.container}>
+            <div>{this._name}</div>
+            <input type="number" className={style.input}/>
         </div>)
     }
 }
