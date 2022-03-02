@@ -7,6 +7,9 @@ import ColorPicker from "./ColorPicker";
 import NumberInput from "./NumberInput";
 import { Menu, SelectMenu } from "./SelectMenu";
 import TextInput from "./TextInput";
+
+import style from "./Propery.css"
+
 /** @jsx jsx */
 import { jsx } from "@src/../grid-engine/Content/jsxRenderer";
 enum InputType {
@@ -40,7 +43,7 @@ class PropertyEdit extends Grid {
 
     private Init() {
         const area_propertyName = this.makeArea({ x: 0, y: 0 }, { x: 2, y: 1 }, false, false);
-        area_propertyName.setChild(new Content(this._bridge,randomId("text"),()=><div className="propertyname">{this._name}</div>));
+        area_propertyName.setChild(new Content(this._bridge,randomId("text"),()=><div className={style.name}>{this._name}</div>));
         this._values.forEach((v, i) => {
             const area_value = this.makeArea({ x: 0, y: i + 1 }, { x: 2, y: 1 }, false, false);
             switch (v.inputType) {

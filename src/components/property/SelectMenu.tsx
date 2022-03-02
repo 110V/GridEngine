@@ -4,6 +4,7 @@ import Bridge from "../../../grid-engine/Bridge";
 /** @jsx jsx */
 import { jsx } from "@src/../grid-engine/Content/jsxRenderer";
 import { randomId } from "@src/../grid-engine/Utils";;
+import style from './SelectMenu.css';
 
 interface Menu {
   key: string,
@@ -20,11 +21,11 @@ class SelectMenu extends Content {
   }
 
   protected _render = ()=>{
-    return(<div className="value-component">
-      <div className="select-name">
+    return(<div className={style.container}>
+      <div className={style.name}>
         {this._name}
       </div>
-      <select className="select">
+      <select className={style.select}>
         {this._menus.map((menu)=>(<option value={menu.value}> {menu.key}</option>))}
       </select>
     </div>)

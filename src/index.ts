@@ -1,7 +1,5 @@
 require('file-loader?name=[name].[ext]!./index.html');
 require('file-loader?name=[name].[ext]!./index.css');
-require('file-loader?name=[name].[ext]!./greedy.css');
-require('file-loader?name=[name].[ext]!./greedy_config.css');
 import GridEngine from "../grid-engine";
 import Content from "../grid-engine/Content/Content";
 import Grid from "../grid-engine/Grid";

@@ -7,13 +7,14 @@ const container = style({
     display: 'inline-flex',
     justifyContent: 'center',
     alignItems: 'center',
+    columnGap: '8px',
 });
 
 const button = style({
     width:'20px',
     height: '20px',
     border: '2px solid black',
-    cursor: 'pointer'
+    cursor: 'pointer',
 })
 
 export default { container, button }

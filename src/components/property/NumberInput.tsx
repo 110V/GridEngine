@@ -15,7 +15,7 @@ export default class NumberInput extends Content{
         return (
         <div className={style.container}>
             <div>{this._name}</div>
-            <input type="number" className={style.input}/>
+            <input type="number" className={style.input} />
         </div>)
     }
 }
