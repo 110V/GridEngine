@@ -7,9 +7,11 @@ import { randomId } from "../grid-engine/Utils";
 import { PropertyEdit,InputType} from "./components/property/Property";
 import Coloris from "@melloware/coloris"
 import { CssEditor } from "./components/CssEditor";
+import {GridEditor} from "./components/GridEditor";
 require('file-loader?name=[name].[ext]!@melloware/coloris/dist/coloris.css');
 
 import { globalVarClass } from "./GlobalStyles.css";
+
 
 const init = () => {
 
@@ -51,11 +53,16 @@ const init = () => {
         
         return {name:"alert",value:color};
     })
+    
     const grid_cssEditor = new CssEditor(gridEngine.bridge);
 
     area_htmlEditor.setChild(grid_cssEditor);
 
+    const grid_GridEditor = new GridEditor(gridEngine.bridge,{x:50,y:50});
+    const area_GridEditor = grid_main.makeArea({x:0,y:1},{x:16.5,y:20},false,true,"GridEditor");
+    area_GridEditor.setChild(grid_GridEditor);
     gridEngine.render();
+    
 
     Coloris({el: ".coloris"});
     Coloris.init();
