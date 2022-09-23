@@ -27,7 +27,10 @@ export default class GridBlock extends Content {
         }else if (this._state==BlockDisplayState.On){
             box_style = style.on;
         }
-        return (<div id={this.id} className={style.box+" "+box_style} onmouseenter={this.onMouseEnter} onmouseleave={this.onMouseOut} >
+        return (<div id={this.id} className={style.box+" "+box_style} 
+                onmouseenter={this.onMouseEnter} 
+                onmouseleave={this.onMouseOut} 
+                onclick={this.onMouseClick}>
         </div>)
     }
 
@@ -39,6 +42,12 @@ export default class GridBlock extends Content {
 
     private onMouseOut=()=>{
         this._state = BlockDisplayState.None;
+        this.render();
+    }
+
+    private onMouseClick=()=>{
+        this._state = BlockDisplayState.None;
+        this._bridge.runLogic("test",this._id);
         this.render();
     }
 

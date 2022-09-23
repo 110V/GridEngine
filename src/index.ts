@@ -27,6 +27,10 @@ const init = () => {
     const gridEngine = new GridEngine(20, 25, root, styleSheet, { x: 1920, y: 1080 });
     const grid_main  = gridEngine.mainGrid;
     
+    gridEngine.bridge.createLogic("test",true,true,(_,value)=>{
+        alert(value);
+        return null;
+    })
     const area_menu = grid_main.makeArea({x:0,y:0},{x:20,y:1},false,true,"menu");
     const grid_menu = new Grid({x:25,y:1})
     area_menu.setChild(grid_menu);
@@ -34,7 +38,7 @@ const init = () => {
     grid_menu.makeArea({x:10,y:0},{x:1,y:1},true,false);//dummmy
     const area_title = grid_menu.makeArea({x:1,y:0},{x:25-2,y:1},false,false);
     const element_title = document.createElement("div");
-   // const content_title = new Content(element_title,"title");
+    // const content_title = new Content(element_title,"title");
     //area_title.setChild(content_title);
     const element_button = document.createElement("button");
     element_button.className = "color-grid-button";
