@@ -34,7 +34,7 @@
     "css-loader": "^6.6.0",
     "file-loader": "^6.2.0",
     "mini-css-extract-plugin": "^2.5.3",
-    "require": "^2.4.20",
+    "require": "^0.4.4",
     "ts-loader": "^9.2.6",
     "typescript": "^4.5.5",
     "webpack": "^5.68.0",
