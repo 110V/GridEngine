@@ -1,4 +1,5 @@
 import Area from "./Area";
+import BlockSizing from "./HtmlRenderer/BlockSizing";
 import HtmlRenderer from "./HtmlRenderer/HtmlRenderer";
 import Position from "./Position";
 import { randomId } from "./Utils";
@@ -11,6 +12,7 @@ export default class Grid {
     private _newAreas: Area[] = [];
     private _removedAreas: Area[] = [];
     private _id:string;
+    
     constructor(size: Vector2,id = randomId("grid")) {
         this._size = size;
         this._id = id;
@@ -31,9 +33,10 @@ export default class Grid {
         this._sizeChanged = true;
     }
 
-    public makeArea(pos: Position, size: Vector2, isWidthFixed: boolean = false, isHeightFiexed: boolean = false, id: string = randomId("area")): Area {
-        const newArea = new Area(pos, size, isWidthFixed, isHeightFiexed, id);
+    public makeArea(pos: Position, size: Vector2, fixedSize:Vector2,isWidthFixed: boolean = false, isHeightFiexed: boolean = false, id: string = randomId("area")): Area {
+        const newArea = new Area(pos, size, fixedSize,isWidthFixed, isHeightFiexed, id);
         this._newAreas.push(newArea);
+        this._areas[id] = newArea;
         return newArea;
     }
 
@@ -54,11 +57,11 @@ export default class Grid {
             area.render(renderer);
             needRepositioning = needRepositioning||area.isTransformChanged;
         }
+        const blockSizing = new BlockSizing(this);
         for(const area of this._newAreas){
-            this._areas[area.id] = area;
             const rendered = area.render(renderer);
             if(rendered){
-                renderer.setArea(this, area,rendered);
+                renderer.setArea(blockSizing, area, rendered);
                 result.push(rendered);
             }
         }
