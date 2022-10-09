@@ -16,7 +16,7 @@ export default class GridBlock extends Content {
     private _outputLogicName:string;
 
     constructor(id: string, outputLogicName: string, bridge: Bridge) {
-        super(bridge);
+        super(bridge,id);
         this._outputLogicName = outputLogicName;
     }
 

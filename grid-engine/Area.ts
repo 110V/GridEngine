@@ -9,6 +9,7 @@ export default class Area {
     private _id:string;
     private _position: Position = { x: 0, y: 0};
     private _size: Vector2 = { x: 0, y: 0 };
+    private _fixedSize:Vector2 = { x: 0, y: 0 };
     private _child: Grid | Content | null = null;
     private _isFixedWidth:boolean = false;
     private _isFixedHeight:boolean = false;
@@ -52,16 +53,13 @@ export default class Area {
         return this._isTransformChanged;
     }
 
-    public set position(position: Position) {
-        this._position = position;
-        this._isTransformChanged = true;
+    public get fixedSize(){
+        return this._fixedSize;
     }
 
-    public set size(size:Vector2){
-        this._size = size;
+    private transformChanged(){
         this._isTransformChanged = true;
     }
-
 
     public setChild = (child:Content|Grid)=>{
         this._isChildChanged = true;
@@ -72,24 +70,34 @@ export default class Area {
         return document.getElementById(this.id);
     }
 
-    public changeSize(size:Vector2){
-        this._isTransformChanged = true;
+    public changeSize(size:Vector2,fixedSize:Vector2, isFixedWidth = false,isFixedHeight = false){
+        this._fixedSize = fixedSize;
         this._size = size;
+        this._isFixedWidth = isFixedWidth;
+        this._isFixedHeight = isFixedHeight;
+        this.transformChanged();
+    }
+    
+    public setFixs(isFixedWidth:boolean,isFixedHeight:boolean){
+        this._isFixedWidth = isFixedWidth;
+        this._isFixedHeight = isFixedHeight;
+        this.transformChanged();
     }
 
     public changePosition(position:Position){
-        this._isTransformChanged = true;
         this._position = position;
+        this.transformChanged();
     }
 
-    constructor(position: Position, size: Vector2, isFixedWidth = false,isFixedHeight = false,id=randomId("area")) {
+    constructor(position: Position, size: Vector2, fixedSize:Vector2 = {x:0,y:0}, isFixedWidth = false,isFixedHeight = false,id=randomId("area")) {
         this._isFixedWidth = isFixedWidth;
         this._isFixedHeight = isFixedHeight;
         this._position = position;
         this._size = size;
+        this._fixedSize = fixedSize;
         this._id = id;
         this._isChildChanged = true;
-        this._isTransformChanged = true;
+        this.transformChanged();
     }
 
     public render = (renderer: HtmlRenderer): HTMLElement|null => {

@@ -13,10 +13,10 @@ export default class HtmlRenderer {
   private _style: HTMLElement
   private _staticElements: {[id:string]:HTMLElement} = {};
 
-  constructor(root: HTMLElement, style: HTMLElement, defaultSize: Vector2) {
+  constructor(root: HTMLElement, style: HTMLElement) {
     this._root = root;
     this._style = style;
-    this._styleManager = new StyleManager(defaultSize);
+    this._styleManager = new StyleManager();
   }
 
   public renderMainGrid = (mainGrid: Grid) => {
@@ -36,12 +36,13 @@ export default class HtmlRenderer {
       if (!element) {
         return;
       }
-      this._styleManager.areaSetter(grid,area,element);
+      const blockSizing = new BlockSizing(grid);
+      this.setArea(blockSizing,area,element);
     });
   }
 
-  public setArea(grid:Grid,area:Area,element:HTMLElement){
-      this._styleManager.areaSetter(grid,area,element);
+  public setArea(blockSizing:BlockSizing,area:Area,element:HTMLElement){
+      this._styleManager.areaSetter(blockSizing,area,element);
   }
 
   public unloadAreas(remove:Area[]){

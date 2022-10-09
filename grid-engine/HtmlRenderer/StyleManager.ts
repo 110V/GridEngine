@@ -13,11 +13,6 @@ interface Property {
 
 export default class StyleManager {
     private _styles: { [key: string]: Property[] } = {};
-    private _defaultSize:Vector2;
-    constructor(defaultSize:Vector2){
-        this._defaultSize = defaultSize;
-    }
-
     // private makePosProperty(grid:Grid, area:Area): Property[] {
     //     const blockSizing = new BlockSizing(grid,this._defaultSize); 
     //     const posXProperty: Property = { name: "left", value: blockSizing.makePosXCSS(area) };
@@ -25,8 +20,7 @@ export default class StyleManager {
     //     return [posXProperty, posYProperty]
     // }
 
-    public areaSetter(grid:Grid, area: Area, div:HTMLElement) {
-        const blockSizing = new BlockSizing(grid,this._defaultSize);
+    public areaSetter(blockSizing:BlockSizing, area: Area, div:HTMLElement) {
         div.style.width = blockSizing.makeAreaWidthCSS(area);
         div.style.height = blockSizing.makeAreaHeightCSS(area);
         div.style.left = blockSizing.makePosXCSS(area);

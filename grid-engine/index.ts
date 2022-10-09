@@ -12,9 +12,9 @@ export default class GridEngine {
     private _mainRenderer: HtmlRenderer;
 
 
-    constructor(x: number, y: number, root: HTMLElement, style: HTMLElement, defaultSize:Vector2) {//TODO Add option interface
+    constructor(x: number, y: number, root: HTMLElement, style: HTMLElement) {//TODO Add option interface
         this.mainGrid = new Grid({ x: x, y: y });
-        this._mainRenderer = new HtmlRenderer(root, style,defaultSize);
+        this._mainRenderer = new HtmlRenderer(root, style);
         this.bridge = new Bridge();
     }
     

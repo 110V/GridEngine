@@ -45,11 +45,11 @@ class CssEditor extends Grid {
             }
         ],bridge);
 
-        const sizeGrid = this.makeArea({ x: 0, y: 1 }, { x: 1, y: 3 }, false, true);
-        const borderGrid = this.makeArea({ x: 0, y: 5 }, { x: 1, y: 3 }, false, true);
-        const shadowGrid = this.makeArea({ x: 0, y: 9 }, { x: 1, y: 5 }, false, true);
-        const cursorGrid = this.makeArea({ x: 0, y: 15 }, { x: 1, y: 2 }, false, true);
-        const textAlignGrid = this.makeArea({ x: 0, y: 18 }, { x: 1, y: 2 }, false, true);
+        const sizeGrid = this.makeArea({ x: 0, y: 1 }, { x: 1, y: 1},{ x: 10, y: 30 }, false, true);
+        const borderGrid = this.makeArea({ x: 0, y: 5 }, { x: 1, y: 1}, { x: 10, y: 30 }, false, true);
+        const shadowGrid = this.makeArea({ x: 0, y: 9 }, { x: 1, y: 1}, { x: 10, y: 50 }, false, true);
+        const cursorGrid = this.makeArea({ x: 0, y: 15 }, { x: 1, y: 1}, { x: 10, y: 20 }, false, true);
+        const textAlignGrid = this.makeArea({ x: 0, y: 18 }, { x: 1, y: 1}, { x: 10, y: 20 }, false, true);
 
         sizeGrid.setChild(sizeProperties);
         borderGrid.setChild(borderProperties);

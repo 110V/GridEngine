@@ -5,7 +5,7 @@ import { vars } from '@src/GlobalStyles.css';
 const box = style({
     width: '100%',
     height: '100%',
-    border: `1px solid ${vars.color.Gray}`,
+    border: `1px solid ${vars.color.brandDark}`,
 });
 
 const none = style({

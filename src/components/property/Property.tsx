@@ -42,10 +42,10 @@ class PropertyEdit extends Grid {
     };
 
     private Init() {
-        const area_propertyName = this.makeArea({ x: 0, y: 0 }, { x: 2, y: 1 }, false, false);
+        const area_propertyName = this.makeArea({ x: 0, y: 0 }, { x: 2, y: 1 },{ x: 1, y: 1 }, false, false);
         area_propertyName.setChild(new Content(this._bridge,randomId("text"),()=><div className={style.name}>{this._name}</div>));
         this._values.forEach((v, i) => {
-            const area_value = this.makeArea({ x: 0, y: i + 1 }, { x: 2, y: 1 }, false, false);
+            const area_value = this.makeArea({ x: 0, y: i + 1 }, { x: 2, y: 1 },{ x: 1, y: 1 }, false, false);
             switch (v.inputType) {
                 case InputType.number: {
                     const content_number = new NumberInput(randomId("number"),v.name,v.outputLogic,this._bridge);
