@@ -3,6 +3,7 @@ import Bridge from "../../../grid-engine/Bridge";
 /** @jsx jsx */
 import { jsx } from "@src/../grid-engine/Content/jsxRenderer";
 import style from './GridBlock.css';
+import Area from "grid-engine/Area";
 
 enum BlockDisplayState{
     None,
@@ -14,9 +15,11 @@ export default class GridBlock extends Content {
     
     private _state:BlockDisplayState = BlockDisplayState.None;
     private _outputLogicName:string;
+    private _area:Area;
 
-    constructor(id: string, outputLogicName: string, bridge: Bridge) {
+    constructor(id: string, outputLogicName: string, bridge: Bridge,area:Area) {
         super(bridge,id);
+        this._area = area;
         this._outputLogicName = outputLogicName;
     }
 
@@ -36,7 +39,6 @@ export default class GridBlock extends Content {
 
     private onMouseEnter= ()=>{
         this._state = BlockDisplayState.On;
-        console.log(this.id)
         this.render();
     }
 
@@ -47,7 +49,7 @@ export default class GridBlock extends Content {
 
     private onMouseClick=()=>{
         this._state = BlockDisplayState.None;
-        this._bridge.runLogic("test",this._id);
+        this._bridge.runLogic("test",this._area);
         this.render();
     }
 

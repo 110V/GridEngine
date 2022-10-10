@@ -38,7 +38,7 @@ export default class Bridge {
         }
     }
 
-    private getObject(id:string):GObject|(GObject)[] {
+    private getObject = (id:string):GObject|(GObject)[] => {
         return this._loadedObjects[id];
     }
 

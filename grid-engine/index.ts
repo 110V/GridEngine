@@ -21,6 +21,9 @@ export default class GridEngine {
     public render() {
         this._mainRenderer.renderMainGrid(this.mainGrid);
     }
+    public update(){
+        this._mainRenderer.updateMainGrid(this.mainGrid);
+    }
 
     public exportHTML():string{
         return this._mainRenderer.exportHtml(this.mainGrid);

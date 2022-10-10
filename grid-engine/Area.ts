@@ -96,7 +96,7 @@ export default class Area {
         this._size = size;
         this._fixedSize = fixedSize;
         this._id = id;
-        this._isChildChanged = true;
+        this._isChildChanged = false;
         this.transformChanged();
     }
 
@@ -110,6 +110,13 @@ export default class Area {
             else{
                 result = renderer.renderArea(this,[]);
             }
+            this._isChildChanged = false;
+        }
+        else{
+            if(this._child){
+                this._child.render(renderer);
+            }
+            result = this.findRenderedHtmlElement();
         }
         return result;
     }

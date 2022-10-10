@@ -44,10 +44,9 @@ export default class BlockSizing {
             }
         });
 
-
+        console.log(this._columnWidths,this._rowHeights);
         this._fixedColumnWidthSum = this._columnWidths.reduce((a,b)=>a+(b==-1?0:b),0);
         this._fixedRowHeightSum = this._rowHeights.reduce((a,b)=>a+(b==-1?0:b),0);
-        console.log(this._columnWidths,this._rowHeights);
     }
 
     public countColumn(x1:number,x2:number):[flexCount:number,fixedSize:number]{
@@ -141,9 +140,9 @@ export default class BlockSizing {
         return flexCount * this.calculateFlexWidthPerBlock(parentWidth) + fixedSize;
     }
 
-    public calculatePosY(area: Area, parentWidth:number): number {
+    public calculatePosY(area: Area, parentHeight:number): number {
         const [flexCount,fixedSize] = this.countColumn(0,area.position.y-1);
-        return flexCount * this.calculateFlexHeightPerBlock(parentWidth) + fixedSize;
+        return flexCount * this.calculateFlexHeightPerBlock(parentHeight) + fixedSize;
     }
 
     public makePosXCSS(area: Area): string {
@@ -153,6 +152,6 @@ export default class BlockSizing {
 
     public makePosYCSS(area: Area): string {
         const [flexCount,fixedSize] = this.countRow(0,area.position.y-1);
-        return `calc(calc(${flexCount} * ${this.makeFlexWidthPerBlockCSS()}) + ${fixedSize}px)`;
+        return `calc(calc(${flexCount} * ${this.makeFlexHeightPerBlockCSS()}) + ${fixedSize}px)`;
     }
 }

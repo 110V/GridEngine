@@ -11,6 +11,7 @@ import {GridEditor} from "./components/GridEditor";
 require('file-loader?name=[name].[ext]!@melloware/coloris/dist/coloris.css');
 
 import { globalVarClass } from "./GlobalStyles.css";
+import Area from "grid-engine/Area";
 
 
 const init = () => {
@@ -26,14 +27,19 @@ const init = () => {
 
     const gridEngine = new GridEngine(1, 1, root, styleSheet);
     const grid_main  = gridEngine.mainGrid;
-    const grid_GridEditor = new GridEditor(gridEngine.bridge,{x:50,y:50});
+    const grid_GridEditor = new GridEditor(gridEngine.bridge,{x:5,y:5});
     const area_GridEditor = grid_main.makeArea({x:0,y:0},{x:1,y:1},{x:1000,y:1000},true,true,"GridEditor");
     area_GridEditor.setChild(grid_GridEditor);
+    gridEngine.addObjectToBridge(grid_GridEditor,true);
     gridEngine.render();
-    gridEngine.bridge.createLogic("test",true,true,(_,value)=>{
-        alert(value);
+    gridEngine.bridge.createLogic("test",true,true,(get,value)=>{
+        const a:Area = value;
+        a.setFixs(!a.isFixedWidth,!a.isFixedHeight);
+        console.log(a);
+        gridEngine.render();
         return null;
     })
+
 
 
     

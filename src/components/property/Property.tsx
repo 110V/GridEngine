@@ -66,7 +66,6 @@ class PropertyEdit extends Grid {
                     if (!v.menus)
                         break;
                     const content_select = new SelectMenu(v.name, v.menus,v.outputLogic,this._bridge);
-                    console.log(v.menus);
                     area_value.setChild(content_select);
                     break;
                 }

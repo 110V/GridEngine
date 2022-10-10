@@ -30,6 +30,10 @@ export default class HtmlRenderer {
     this._style.innerHTML = css;
   }
 
+  public updateMainGrid = (mainGrid: Grid) => {
+    mainGrid.render(this);
+  }
+
   public repositionAreas(grid: Grid) {
     grid.areas.forEach(area => {
       const element = this.getHtmlElementbyId(area.id)

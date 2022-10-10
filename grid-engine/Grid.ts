@@ -7,7 +7,7 @@ import { Vector2 } from "./Vector2";
 
 export default class Grid {
     private _size: Vector2 = { x: 0, y: 0 };
-    private _areas: { [id: string]: Area } = {};
+    private _rendered_areas: { [id: string]: Area } = {};
     private _sizeChanged: boolean = false;
     private _newAreas: Area[] = [];
     private _removedAreas: Area[] = [];
@@ -19,7 +19,10 @@ export default class Grid {
     }
 
     public get areas() {
-        return Object.values(this._areas);
+        return Object.values(this._rendered_areas).concat(this._newAreas);
+    }
+    public get rendered_areas() {
+        return Object.values(this._rendered_areas);
     }
     public get size() {
         return this._size;
@@ -36,40 +39,54 @@ export default class Grid {
     public makeArea(pos: Position, size: Vector2, fixedSize:Vector2,isWidthFixed: boolean = false, isHeightFiexed: boolean = false, id: string = randomId("area")): Area {
         const newArea = new Area(pos, size, fixedSize,isWidthFixed, isHeightFiexed, id);
         this._newAreas.push(newArea);
-        this._areas[id] = newArea;
         return newArea;
     }
 
     public removeArea(id: string) {
-        this._removedAreas.push(this._areas[id]);
-        delete this._areas[id];
+        this._removedAreas.push(this._rendered_areas[id]);
+        delete this._rendered_areas[id];
     }
 
     public area(id: string): Area {
-        return this._areas[id];
+        return this._rendered_areas[id];
     }
 
     public render(renderer: HtmlRenderer): HTMLElement[] {
+        console.log("렌더가 호출되었어요",this.id)
+        const a = Date.now();
         let result: HTMLElement[] = [];
         renderer.unloadAreas(this._removedAreas);
+        this._removedAreas = [];
         let needRepositioning = false;
-        for (const area of this.areas) {
-            area.render(renderer);
+
+        for (const area of this.rendered_areas) {
             needRepositioning = needRepositioning||area.isTransformChanged;
+            area.render(renderer);
         }
-        const blockSizing = new BlockSizing(this);
-        for(const area of this._newAreas){
-            const rendered = area.render(renderer);
-            if(rendered){
-                renderer.setArea(blockSizing, area, rendered);
-                result.push(rendered);
+
+        if (this._newAreas.length > 0) {
+            const blockSizing = new BlockSizing(this);
+            for(const area of this._newAreas){
+                const rendered = area.render(renderer);
+                if(rendered){
+                    needRepositioning = true;
+                    result.push(rendered);
+                    renderer.setArea(blockSizing,area,rendered);
+                    this._rendered_areas[area.id] = area;
+
+                }
             }
+            this._newAreas = []
         }
-        needRepositioning = this._sizeChanged;
+
+        
+        needRepositioning = this._sizeChanged||needRepositioning;
         this._sizeChanged = false;
+        
         if (needRepositioning) {
             renderer.repositionAreas(this);
         }
+        console.log("경과시간",(Date.now() - a)/1000,needRepositioning);
         return result;
     }
 }
