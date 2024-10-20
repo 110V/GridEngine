@@ -21,7 +21,7 @@ class GridEditor extends Grid{
                 let area = null;
                 const id = `${this.id}-${x}-${y}`;
                 if(x==4&&y == 10){
-                    area = this.makeArea({x,y},{x:1,y:1},{x:50,y:100},true,true,id);
+                    area = this.makeArea({x,y},{x:1,y:1},{x:100,y:100},true,true,id);
                 }
                 else{
                     area = this.makeArea({x,y},{x:1,y:1},{x:50,y:100},false,false,id);

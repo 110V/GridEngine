@@ -12,7 +12,8 @@ require('file-loader?name=[name].[ext]!@melloware/coloris/dist/coloris.css');
 
 import { globalVarClass } from "./GlobalStyles.css";
 import Area from "grid-engine/Area";
-
+/** @jsx jsx */
+import { jsx } from "@src/../grid-engine/Content/jsxRenderer";
 
 const init = () => {
 
@@ -25,46 +26,49 @@ const init = () => {
     root.className = globalVarClass;
 
 
-    const gridEngine = new GridEngine(1, 1, root, styleSheet);
+    const gridEngine = new GridEngine(21, 11, root, styleSheet);
     const grid_main  = gridEngine.mainGrid;
-    const grid_GridEditor = new GridEditor(gridEngine.bridge,{x:5,y:5});
-    const area_GridEditor = grid_main.makeArea({x:0,y:0},{x:1,y:1},{x:1000,y:1000},true,true,"GridEditor");
-    area_GridEditor.setChild(grid_GridEditor);
-    gridEngine.addObjectToBridge(grid_GridEditor,true);
-    gridEngine.render();
-    gridEngine.bridge.createLogic("test",true,true,(get,value)=>{
-        const a:Area = value;
-        a.setFixs(!a.isFixedWidth,!a.isFixedHeight);
-        console.log(a);
-        gridEngine.render();
-        return null;
-    })
+    // const grid_GridEditor = new GridEditor(gridEngine.bridge,{x:15,y:15});
+    // const area_GridEditor = grid_main.makeArea({x:0,y:0},{x:1,y:1},{x:500,y:500},true,true,"GridEditor");
+    // area_GridEditor.setChild(grid_GridEditor);
+    // gridEngine.addObjectToBridge(grid_GridEditor,true);
+    // gridEngine.render();
+    // gridEngine.bridge.createLogic("test",true,true,(get,value)=>{
+    //     const a:Area = value;
+    //     a.setFixs(!a.isFixedWidth,!a.isFixedHeight);
+    //     console.log(a);
+    //     gridEngine.render();
+    //     return null;
+    // })
 
 
 
     
-//     const area_menu = grid_main.makeArea({x:0,y:0},{x:1,y:1},{x:20,y:1},false,true,"menu");
-//     const grid_menu = new Grid({x:25,y:1})
-//     area_menu.setChild(grid_menu);
-//     const area_filebtn = grid_menu.makeArea({x:0,y:0},{x:1,y:1},{x:1,y:1},true,false);
-//     grid_menu.makeArea({x:10,y:0},{x:1,y:1},{x:1,y:1},true,false);//dummmy
-//     const area_title = grid_menu.makeArea({x:1,y:0},{x:1,y:1},{x:25-2,y:1},false,false);
-//     const element_title = document.createElement("div");
-//     // const content_title = new Content(element_title,"title");
-//     //area_title.setChild(content_title);
-//     const element_button = document.createElement("button");
-//     element_button.className = "color-grid-button";
-//     element_button.innerText = "File";
-//     //const content_filebtn = new Content(element_button,"filebtn");
-//     //area_filebtn.setChild(content_filebtn);
+    const area_menu = grid_main.makeArea({x:0,y:0},{x:1,y:1},{x:20,y:20},false,false,"menu");
+    const grid_menu = new Grid({x:25,y:1})
+    area_menu.setChild(grid_menu);
 
-//     const area_htmlEditor = grid_main.makeArea({x:17,y:1},{x:1,y:1},{x:3,y:24},true,false);
-//    // const content = new Content(document.createElement("div"),"html_editor");
-//    // area_htmlEditor.setChild(content);
-//     gridEngine.bridge.createLogic("alert",true,true,(_,value)=>{
-//         alert(value);
-//         return null;
-//     })
+
+    // const area_filebtn = grid_menu.makeArea({x:0,y:0},{x:1,y:1},{x:1,y:1},true,false);
+    // grid_menu.makeArea({x:10,y:0},{x:1,y:1},{x:1,y:1},true,false);//dummmy
+    // const area_title = grid_menu.makeArea({x:1,y:0},{x:1,y:1},{x:25-2,y:1},false,false);
+    // const element_title = document.createElement("div");
+    // const content_title = new Content(gridEngine.bridge,"title");
+    // area_title.setChild(content_title);
+    // const element_button = document.createElement("button");
+    // element_button.className = "color-grid-button";
+    // element_button.innerText = "File";
+    //const content_filebtn = new Content(element_button,"filebtn");
+    //area_filebtn.setChild(content_filebtn);
+
+    const area_htmlEditor = grid_main.makeArea({x:17,y:1},{x:1,y:1},{x:1,y:1},true,false);
+    const content = new Content(gridEngine.bridge,"html_editor",()=>(<div>test</div>));
+    area_htmlEditor.setChild(content);
+    // area_htmlEditor.setChild(content);
+    // gridEngine.bridge.createLogic("alert",true,true,(_,value)=>{
+    //     alert(value);
+    //     return null;
+    // })
 //     gridEngine.bridge.createLogic("css_border_color_setter",true,false,(_,color)=>{
         
 //         return {name:"alert",value:color};
@@ -75,7 +79,7 @@ const init = () => {
 //     area_htmlEditor.setChild(grid_cssEditor);
 
 
-    
+    gridEngine.render()
 
     Coloris({el: ".coloris"});
     Coloris.init();

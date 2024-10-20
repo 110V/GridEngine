@@ -10,7 +10,7 @@ module.exports = {
         extensions: ['.ts', '.tsx', '.js'],
     },
     entry: {
-        main: path.resolve(__dirname, "./src/index.ts")
+        main: path.resolve(__dirname, "./src/index.tsx")
     },
     output: {
         filename: "bundle.js",
@@ -42,6 +42,7 @@ module.exports = {
         static: path.join(__dirname, 'dist'),
         hot: true,
         compress: true,
-        allowedHosts:["sgb.st"],
+        allowedHosts: ['all'],
+        host: '0.0.0.0',
     },
 }

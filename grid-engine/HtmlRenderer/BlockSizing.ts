@@ -19,7 +19,7 @@ export default class BlockSizing {
 
     private calculateSizes() {
         this._rowHeights = new Array(this._grid.size.y).fill(-1);
-        this._columnWidths = new Array(this._grid.size.y).fill(-1);
+        this._columnWidths = new Array(this._grid.size.x).fill(-1);
         this._fixedColumnCount = 0;
         this._fixedRowCount = 0;
         this._grid.areas.forEach(area => {
